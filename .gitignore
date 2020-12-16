@@ -75,3 +75,5 @@ fabric.properties
 *.iml
 
 test
+
+/target/*
