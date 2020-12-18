@@ -1,7 +1,11 @@
+import backend.algorithms.BreadthFirstSearch;
+import backend.algorithms.SearchAlgorithm;
 import frontend.VisualizerField;
 import frontend.VisualizerHeader;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -22,13 +26,20 @@ public class MyWindow extends Application {
 
         VBox parent = new VBox();
 
-        VisualizerField visualizerField = new VisualizerField();
-        VisualizerHeader visualizerHeader = new VisualizerHeader();
 
-        parent.getChildren().addAll(visualizerHeader.getHeader(), visualizerField.getField(pathToConfig));
+        VisualizerHeader visualizerHeader = new VisualizerHeader();
+        VisualizerField visualizerField = new VisualizerField();
+        Button startButton = new Button("Start search");
+        startButton.setAlignment(Pos.CENTER);
+        startButton.setOnAction(e -> {
+            SearchAlgorithm search = new BreadthFirstSearch();
+            visualizerField.startSearch(search);
+        });
+        parent.getChildren().addAll(visualizerHeader.getHeader(), startButton, visualizerField.getField(pathToConfig));
 
         Scene scene1 = new Scene(parent);
         stage.setScene(scene1);
         stage.show();
+
     }
 }

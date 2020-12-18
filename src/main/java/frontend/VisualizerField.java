@@ -1,5 +1,7 @@
 package frontend;
 
+import backend.algorithms.Index;
+import backend.algorithms.SearchAlgorithm;
 import fileprocessing.JSONReader;
 import fileprocessing.Reader;
 import javafx.geometry.Pos;
@@ -12,7 +14,9 @@ import java.nio.file.Path;
 public class VisualizerField {
 
     private Button[][] field;
-    private Button startField;
+    private Index startField;
+    private GridPane grid;
+
     //needed for heuristic search algorithms
     private Button endField;
     private Reader fileReader = new JSONReader();
@@ -29,18 +33,32 @@ public class VisualizerField {
                 Button tempButton = field[i][j];
                 if (!startFound && tempButton.getText().equals("S")){
                     tempButton.setStyle("-fx-background-color: #f1f514; ");
-                    startField = tempButton;
+                    startField = new Index(i,j);
                     startFound=true;
-                }else if(tempButton.getText().equals("Z")){
+                }else if(!endFound && tempButton.getText().equals("Z")){
                     tempButton.setStyle("-fx-background-color: #f1f514; ");
-                }else if(!endFound && tempButton.getText().equals("X")){
-                    tempButton.setStyle("-fx-background-color: #aaadb3; ");
                     endField = tempButton;
                     endFound = true;
+                }else if(tempButton.getText().equals("X")){
+                    tempButton.setStyle("-fx-background-color: #aaadb3; ");
+
                 }
                 grid.add(tempButton, j,i);
             }
         }
+        this.grid=grid;
+        return grid;
+    }
+
+    public void startSearch(SearchAlgorithm searchAlgorithm){
+        searchAlgorithm.doSearch(getGrid(), getField(), startField);
+    }
+
+    public Button[][] getField(){
+        return field;
+    }
+
+    public GridPane getGrid(){
         return grid;
     }
 }
