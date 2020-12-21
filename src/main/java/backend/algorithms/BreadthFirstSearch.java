@@ -1,5 +1,6 @@
 package backend.algorithms;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -20,23 +21,37 @@ public class BreadthFirstSearch implements SearchAlgorithm{
         boolean foundTarget = false;
         currentIndex.add(startField);
 
-
-        while(!foundTarget){
-            for (Index index : currentIndex){
-                foundTarget = searchIndexInEveryDirection(index);
-                if (foundTarget){
-                    break;
-                }
-            }
-        }
+//        while(!foundTarget){
+//            for (Index index : currentIndex){
+                foundTarget = searchIndexInEveryDirection(currentIndex.get(0));
+//                if (foundTarget){
+//                    break;
+//                }
+//            }
+//        }
     }
+
 
     public boolean searchIndexInEveryDirection(Index index){
-        if (buttons[index.getColumn()][index.getRow()].getText().equals("0")){
 
-        }else if (buttons[index.getColumn()][index.getRow()].getText().equals("Z")){
-            return true;
+        int row = index.getRow()+1;
+
+        if (buttons.length>row){
+            if (buttons[index.getRow()][index.getColumn()].getText().equals("Z")){
+                return true;
+            } else if(buttons[index.getRow()][index.getColumn()].getText().equals("X")){
+                //TODO
+            }else{
+                Button visitedButton = buttons[row][index.getColumn()];
+                searchField.getChildren().remove(visitedButton);
+                System.out.println("Before change: " + buttons[row][index.getColumn()].getStyle());
+                visitedButton.setStyle("-fx-background-color: #89c1c7 ");
+                System.out.println("After change: "+ buttons[row][index.getColumn()].getStyle());
+                searchField.add(visitedButton,index.getColumn(),row);
+            }
         }
+
         return false;
     }
+
 }
