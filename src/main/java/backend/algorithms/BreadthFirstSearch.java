@@ -1,13 +1,12 @@
 package backend.algorithms;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreadthFirstSearch implements SearchAlgorithm{
+public class BreadthFirstSearch implements SearchAlgorithm {
 
     private List<Index> currentIndex = new ArrayList<>();
     private GridPane searchField = new GridPane();
@@ -21,37 +20,62 @@ public class BreadthFirstSearch implements SearchAlgorithm{
         boolean foundTarget = false;
         currentIndex.add(startField);
 
+
 //        while(!foundTarget){
-//            for (Index index : currentIndex){
+//            for(Index index : currentIndex){
                 foundTarget = searchIndexInEveryDirection(currentIndex.get(0));
-//                if (foundTarget){
-//                    break;
-//                }
 //            }
 //        }
     }
 
 
-    public boolean searchIndexInEveryDirection(Index index){
+    public boolean searchIndexInEveryDirection(Index index) {
 
-        int row = index.getRow()+1;
+        boolean found = false;
+        currentIndex.remove(index);
 
-        if (buttons.length>row){
-            if (buttons[index.getRow()][index.getColumn()].getText().equals("Z")){
-                return true;
-            } else if(buttons[index.getRow()][index.getColumn()].getText().equals("X")){
-                //TODO
-            }else{
-                Button visitedButton = buttons[row][index.getColumn()];
-                searchField.getChildren().remove(visitedButton);
-                System.out.println("Before change: " + buttons[row][index.getColumn()].getStyle());
-                visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-                System.out.println("After change: "+ buttons[row][index.getColumn()].getStyle());
-                searchField.add(visitedButton,index.getColumn(),row);
-            }
+        found = checkBelow(index);
+        found = checkAbove(index);
+
+
+        return found;
+    }
+
+    private boolean checkAbove(Index index) {
+        if (index.getRow()>0){
+            Index aboveIndex = Index.copy(index);
+            aboveIndex.setRow(aboveIndex.getRow()-1);
+            index.setRow(index.getRow()-1);
+            return checkEndPosition(index);
         }
-
         return false;
+    }
+
+    private boolean checkBelow(Index index) {
+        if (buttons.length > index.getRow()) {
+            Index belowIndex = Index.copy(index);
+            belowIndex.setRow(belowIndex.getRow()+1);
+            return checkEndPosition(belowIndex);
+        }
+        return false;
+    }
+
+    private boolean checkEndPosition(Index index){
+        int row = index.getRow();
+        int column = index.getColumn();
+
+        Button visitedButton = buttons[row][column];
+        if (visitedButton.getText().equals("Z")){
+            return true;
+        }else if(visitedButton.getText().equals("X")){
+            return false;
+        }else{
+            searchField.getChildren().remove(visitedButton);
+            visitedButton.setStyle("-fx-background-color: #89c1c7 ");
+            searchField.add(visitedButton, column, row);
+            currentIndex.add(index);
+            return false;
+        }
     }
 
 }

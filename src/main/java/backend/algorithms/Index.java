@@ -25,4 +25,9 @@ public class Index {
     public void setColumn(int column) {
         this.column = column;
     }
+
+    public static Index copy(Index index){
+        Index ind = new Index(index.getRow(), index.getColumn());
+        return ind;
+    }
 }
