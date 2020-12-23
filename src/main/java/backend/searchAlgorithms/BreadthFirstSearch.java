@@ -1,5 +1,6 @@
-package backend.algorithms;
+package backend.searchAlgorithms;
 
+import frontend.ResultDisplayer;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -25,20 +26,17 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         if (visited==null){
             visited = new boolean[searchField.getRowCount()][searchField.getColumnCount()];
         }
-
-
         //TODO change this with second if
         if (firstSearch) {
-
             currentIndex.add(startField);
         }
 
-
         for (Index index : currentIndex) {
-            if (index.getRow()==10&&index.getColumn()==12){
-                System.out.println("burr");
-            }
             foundTarget = searchIndexInEveryDirection(index);
+            if (foundTarget){
+                System.out.println("Target found at: [" + index.getRow()+"]["+index.getColumn()+"]");
+                new ResultDisplayer().displayResult(buttons, index, searchField);
+            }
         }
         if (firstSearch){
             visited[startField.getRow()][startField.getColumn()]=true;
@@ -56,9 +54,21 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         boolean found = false;
 
         found = checkBelow(index);
+        if (found){
+            return true;
+        }
         found = checkAbove(index);
+        if (found){
+            return true;
+        }
         found = checkRight(index);
+        if (found){
+            return true;
+        }
         found = checkLeft(index);
+        if (found){
+            return true;
+        }
 
 
         return found;
@@ -66,9 +76,10 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
     private boolean checkLeft(Index index) {
         if (index.getColumn()-1 >= 0 && !visited[index.getRow()][index.getColumn()-1]) {
-            Index rightIndex = Index.copy(index);
-            rightIndex.setColumn(rightIndex.getColumn() - 1);
-            return checkEndPosition(rightIndex);
+            Index leftIndex = Index.copy(index);
+            leftIndex.setPreviousIndex(index);
+            leftIndex.setColumn(leftIndex.getColumn() - 1);
+            return checkEndPosition(leftIndex);
         }
         return false;
     }
@@ -76,6 +87,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
     private boolean checkRight(Index index) {
         if (index.getColumn()+1 < buttons[index.getRow()].length && !visited[index.getRow()][index.getColumn()+1]) {
             Index rightIndex = Index.copy(index);
+            rightIndex.setPreviousIndex(index);
             rightIndex.setColumn(rightIndex.getColumn() + 1);
             return checkEndPosition(rightIndex);
         }
@@ -85,6 +97,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
     private boolean checkAbove(Index index) {
         if (index.getRow()-1 >= 0 && !visited[index.getRow()-1][index.getColumn()]) {
             Index aboveIndex = Index.copy(index);
+            aboveIndex.setPreviousIndex(index);
             aboveIndex.setRow(aboveIndex.getRow() - 1);
             return checkEndPosition(aboveIndex);
         }
@@ -94,6 +107,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
     private boolean checkBelow(Index index) {
         if (index.getRow()+1 < buttons.length && !visited[index.getRow()+1][index.getColumn()]) {
             Index belowIndex = Index.copy(index);
+            belowIndex.setPreviousIndex(index);
             belowIndex.setRow(belowIndex.getRow() + 1);
             return checkEndPosition(belowIndex);
         }
@@ -109,7 +123,6 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         }
         Button visitedButton = buttons[row][column];
         if (visitedButton.getText().equals("Z")) {
-            System.out.println("Target found at: [" + index.getRow()+"]["+index.getColumn()+"]");
             return true;
         } else if (visitedButton.getText().equals("X")) {
             System.out.println("wall");
@@ -119,7 +132,6 @@ public class BreadthFirstSearch implements SearchAlgorithm {
             visitedButton.setStyle("-fx-background-color: #89c1c7 ");
             searchField.add(visitedButton, column, row);
             indexToContinueSearch.add(index);
-
             return false;
         }
     }

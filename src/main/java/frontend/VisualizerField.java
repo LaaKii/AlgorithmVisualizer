@@ -1,7 +1,7 @@
 package frontend;
 
-import backend.algorithms.Index;
-import backend.algorithms.SearchAlgorithm;
+import backend.searchAlgorithms.Index;
+import backend.searchAlgorithms.SearchAlgorithm;
 import fileprocessing.JSONReader;
 import fileprocessing.Reader;
 import javafx.geometry.Pos;

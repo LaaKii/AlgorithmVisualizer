@@ -1,5 +1,5 @@
-import backend.algorithms.BreadthFirstSearch;
-import backend.algorithms.SearchAlgorithm;
+import backend.searchAlgorithms.BreadthFirstSearch;
+import backend.searchAlgorithms.SearchAlgorithm;
 import frontend.VisualizerField;
 import frontend.VisualizerHeader;
 import javafx.application.Application;
