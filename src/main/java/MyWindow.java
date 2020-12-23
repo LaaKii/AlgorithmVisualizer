@@ -31,8 +31,8 @@ public class MyWindow extends Application {
         VisualizerField visualizerField = new VisualizerField();
         Button startButton = new Button("Start search");
         startButton.setAlignment(Pos.CENTER);
+        SearchAlgorithm search = new BreadthFirstSearch();
         startButton.setOnAction(e -> {
-            SearchAlgorithm search = new BreadthFirstSearch();
             visualizerField.startSearch(search);
         });
         parent.getChildren().addAll(visualizerHeader.getHeader(), startButton, visualizerField.getField(pathToConfig));
