@@ -56,6 +56,7 @@ public class VisualizerHeader {
         });
         safeCurrentField.setOnAction(e->{
             visualizerField.safeField(Path.of("input.json"));
+            reloadField.fire();
         });
         algorithms.setSpacing(20);
         algorithms.setPadding(new Insets(10,30,10,50));

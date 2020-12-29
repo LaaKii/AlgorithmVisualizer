@@ -47,7 +47,7 @@ public class JSONFileProcessor implements FileProcessor {
         for(Button[] btnArr: field){
             JSONArray innerArray = new JSONArray();
             for(Button btn : btnArr){
-                innerArray.add(btn);
+                innerArray.add(btn.getText());
             }
             outerArray.add(innerArray);
         }

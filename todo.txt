@@ -1,0 +1,4 @@
+1. check if algorithm is stuck
+2. show tooltips on right side
+3. popups instead of exception
+4. remove unnecessary console output
