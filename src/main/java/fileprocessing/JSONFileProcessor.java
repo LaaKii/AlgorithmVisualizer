@@ -7,10 +7,11 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class JSONReader implements Reader{
+public class JSONFileProcessor implements FileProcessor {
 
     public Button[][] readFile(Path filePath) {
         Button[][] result = new Button[0][];
@@ -38,5 +39,23 @@ public class JSONReader implements Reader{
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public void writeFile(Button[][] field, Path pathToWriteFile) {
+        JSONArray outerArray = new JSONArray();
+        for(Button[] btnArr: field){
+            JSONArray innerArray = new JSONArray();
+            for(Button btn : btnArr){
+                innerArray.add(btn);
+            }
+            outerArray.add(innerArray);
+        }
+
+        try(FileWriter fileWriter = new FileWriter(pathToWriteFile.toFile())){
+            fileWriter.write(outerArray.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.nio.file.Path;
+
 public class VisualizerHeader {
 
     private VisualizerField visualizerField;
@@ -40,16 +42,20 @@ public class VisualizerHeader {
         HBox algorithms = new HBox();
         ComboBox<String> algorithmCombo = new ComboBox<>();
         Button startButton = new Button("Next Searchstep");
-        Button resetButton = new Button("Reset field");
+        Button reloadField = new Button("Reload field");
+        Button safeCurrentField = new Button("Safe field");
 
         startButton.setAlignment(Pos.CENTER);
-        resetButton.setAlignment(Pos.CENTER);
-        resetButton.setOnAction(e -> {
+        reloadField.setAlignment(Pos.CENTER);
+        reloadField.setOnAction(e -> {
             visualizerField.resetField(parent);
             visualizerField.setSearchAlgorithm(getSelectedSearchAlgorithm(algorithmCombo.getValue()));
         });
         startButton.setOnAction(e -> {
             visualizerField.startSearch();
+        });
+        safeCurrentField.setOnAction(e->{
+            visualizerField.safeField(Path.of("input.json"));
         });
         algorithms.setSpacing(20);
         algorithms.setPadding(new Insets(10,30,10,50));
@@ -64,7 +70,7 @@ public class VisualizerHeader {
         });
         visualizerField.setSearchAlgorithm(new BreadthFirstSearch());
 
-        algorithms.getChildren().addAll(algorithmCombo, startButton, resetButton);
+        algorithms.getChildren().addAll(algorithmCombo, startButton, reloadField, safeCurrentField);
 
         return algorithms;
     }

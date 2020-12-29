@@ -2,11 +2,10 @@ package frontend;
 
 import backend.searchAlgorithms.Index;
 import backend.searchAlgorithms.SearchAlgorithm;
-import fileprocessing.JSONReader;
-import fileprocessing.Reader;
+import fileprocessing.JSONFileProcessor;
+import fileprocessing.FileProcessor;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -22,7 +21,7 @@ public class VisualizerField {
 
     //needed for heuristic search algorithms
     private Button endField;
-    private Reader fileReader = new JSONReader();
+    private FileProcessor fileProcessor = new JSONFileProcessor();
 
     public VisualizerField(Path pathToConfig) {
         this.pathToConfig=pathToConfig;
@@ -37,7 +36,7 @@ public class VisualizerField {
     }
 
     public Node createFieldByConfig(Path pathToConfig) {
-        field = fileReader.readFile(pathToConfig);
+        field = fileProcessor.readFile(pathToConfig);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         boolean startFound = false;
@@ -46,6 +45,9 @@ public class VisualizerField {
         for(int i = 0; i<field.length; i++){
             for(int j = 0; j<field[i].length; j++){
                 Button tempButton = field[i][j];
+                tempButton.setOnAction(actionEvent -> {
+                    tempButton.switchField(tempButton.getText());
+                });
                 if (!startFound && tempButton.getText().equals("S")){
                     tempButton.setStyle("-fx-background-color: #f1f514; ");
                     startField = new Index(i,j);
@@ -56,7 +58,6 @@ public class VisualizerField {
                     endFound = true;
                 }else if(tempButton.getText().equals("X")){
                     tempButton.setStyle("-fx-background-color: #aaadb3; ");
-
                 }
                 grid.add(tempButton, j,i);
             }
@@ -91,5 +92,8 @@ public class VisualizerField {
         return grid;
     }
 
+    public void safeField(Path pathToWriteFile) {
+        fileProcessor.writeFile(field,pathToWriteFile);
+    }
 }
 
