@@ -1,6 +1,6 @@
 package fileprocessing;
 
-import javafx.scene.control.Button;
+import frontend.Button;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

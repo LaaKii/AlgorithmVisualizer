@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import java.nio.file.Path;
 
@@ -16,12 +17,26 @@ public class VisualizerField {
     private Button[][] field;
     private Index startField;
     private GridPane grid;
+    private SearchAlgorithm searchAlgorithm;
+    private Path pathToConfig;
 
     //needed for heuristic search algorithms
     private Button endField;
     private Reader fileReader = new JSONReader();
 
-    public Node getField(Path pathToConfig) {
+    public VisualizerField(Path pathToConfig) {
+        this.pathToConfig=pathToConfig;
+    }
+
+    public Node refreshField(){
+        return createFieldByConfig(pathToConfig);
+    }
+
+    public void setPathToConfig(Path pathToConfig){
+        this.pathToConfig=pathToConfig;
+    }
+
+    public Node createFieldByConfig(Path pathToConfig) {
         field = fileReader.readFile(pathToConfig);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -50,16 +65,31 @@ public class VisualizerField {
         return grid;
     }
 
-    public void startSearch(SearchAlgorithm searchAlgorithm){
-        searchAlgorithm.doSearch(getGrid(), getField(), startField);
+    public void startSearch(){
+        if (searchAlgorithm!=null){
+            searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField);
+        } else{
+            throw new NullPointerException("Search Algorithm isn't set");
+        }
     }
 
-    public Button[][] getField(){
+    public void setSearchAlgorithm(SearchAlgorithm searchAlgorithm){
+        this.searchAlgorithm=searchAlgorithm;
+    }
+
+    public void resetField(VBox parent){
+        parent.getChildren().remove(grid);
+        field = null;
+        parent.getChildren().add(refreshField());
+    }
+
+    public Button[][] getCurrentButtonField(){
         return field;
     }
 
     public GridPane getGrid(){
         return grid;
     }
+
 }
 
