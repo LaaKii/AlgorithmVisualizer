@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 public class DepthFirstSearch implements SearchAlgorithm
 {
     @Override
-    public void doSearch(GridPane searchField, Button[][] buttons, Index startField) {
-
+    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField) {
+        return false;
     }
 }

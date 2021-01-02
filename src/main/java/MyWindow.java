@@ -24,7 +24,7 @@ public class MyWindow extends Application {
         System.out.println("New window creating now...");
         stage.setTitle("First window");
         stage.setWidth(800);
-        stage.setHeight(650);
+        stage.setHeight(700);
 
         VBox parent = new VBox();
 

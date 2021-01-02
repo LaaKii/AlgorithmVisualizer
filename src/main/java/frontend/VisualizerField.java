@@ -6,6 +6,7 @@ import fileprocessing.JSONFileProcessor;
 import fileprocessing.FileProcessor;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -66,10 +67,17 @@ public class VisualizerField {
         return grid;
     }
 
-    public void startSearch(){
+    public boolean nextSearchStep(){
         if (searchAlgorithm!=null){
-            searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField);
+           boolean searchFinished = searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField);
+           return searchFinished;
         } else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Algorithm Error");
+            alert.setHeaderText("Algorithm not set");
+            String s ="Either the algorithm couldn't be recognized or it isn't set";
+            alert.setContentText(s);
+            alert.show();
             throw new NullPointerException("Search Algorithm isn't set");
         }
     }

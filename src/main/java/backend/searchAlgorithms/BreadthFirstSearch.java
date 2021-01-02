@@ -1,27 +1,31 @@
 package backend.searchAlgorithms;
 
 import frontend.ResultDisplayer;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BreadthFirstSearch implements SearchAlgorithm {
 
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private List<Index> currentIndex = new ArrayList<>();
+    //Has to be set below 0, since the first Searchstep is always 0.
+    private int indexOfLastSearchStep = -1;
     private GridPane searchField = new GridPane();
     private Button[][] buttons;
     private boolean firstSearch=true;
     boolean[][] visited = null;
 
     @Override
-    public void doSearch(GridPane searchField, Button[][] buttons, Index startField) {
+    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField) {
         this.searchField = searchField;
         this.buttons = buttons;
 
-        boolean foundTarget = false;
+        boolean searchFinished = false;
 
         if (visited==null){
             visited = new boolean[searchField.getRowCount()][searchField.getColumnCount()];
@@ -32,10 +36,11 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         }
 
         for (Index index : currentIndex) {
-            foundTarget = searchIndexInEveryDirection(index);
-            if (foundTarget){
+            searchFinished = searchIndexInEveryDirection(index);
+            if (searchFinished){
                 System.out.println("Target found at: [" + index.getRow()+"]["+index.getColumn()+"]");
                 new ResultDisplayer().displayResult(buttons, index, searchField);
+                return true;
             }
         }
         if (firstSearch){
@@ -44,34 +49,26 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         }
 
         currentIndex = List.copyOf(indexToContinueSearch);
+        if (currentIndex.size()==0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("Target could not be found");
+            String s ="Either there is no target or the target couldn't be reached";
+            alert.setContentText(s);
+            alert.show();
+            return true;
+        }
         indexToContinueSearch.clear();
-        System.out.println("for over");
+        return false;
     }
 
 
     public boolean searchIndexInEveryDirection(Index index) {
-
-        boolean found = false;
-
-        found = checkBelow(index);
-        if (found){
+        if (checkBelow(index)||checkAbove(index)||checkLeft(index)||checkRight(index)){
             return true;
+        }else{
+            return false;
         }
-        found = checkAbove(index);
-        if (found){
-            return true;
-        }
-        found = checkRight(index);
-        if (found){
-            return true;
-        }
-        found = checkLeft(index);
-        if (found){
-            return true;
-        }
-
-
-        return found;
     }
 
     private boolean checkLeft(Index index) {

@@ -48,11 +48,15 @@ public class VisualizerHeader {
         startButton.setAlignment(Pos.CENTER);
         reloadField.setAlignment(Pos.CENTER);
         reloadField.setOnAction(e -> {
+            startButton.setDisable(false);
             visualizerField.resetField(parent);
             visualizerField.setSearchAlgorithm(getSelectedSearchAlgorithm(algorithmCombo.getValue()));
         });
         startButton.setOnAction(e -> {
-            visualizerField.startSearch();
+            boolean searchFinished = visualizerField.nextSearchStep();
+            if (searchFinished){
+                startButton.setDisable(true);
+            }
         });
         safeCurrentField.setOnAction(e->{
             visualizerField.safeField(Path.of("input.json"));

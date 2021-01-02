@@ -5,5 +5,5 @@ import javafx.scene.layout.GridPane;
 
 public interface SearchAlgorithm{
 
-    void doSearch(GridPane searchField, Button[][] buttons, Index startField);
+    boolean doSearch(GridPane searchField, Button[][] buttons, Index startField);
 }
