@@ -41,21 +41,23 @@ public class VisualizerHeader {
     private HBox createAlgorithmHeader() {
         HBox algorithms = new HBox();
         ComboBox<String> algorithmCombo = new ComboBox<>();
+        NumberTextField amountOfSearchStepsButton = new NumberTextField("1");
+        amountOfSearchStepsButton.setPrefWidth(35);
         Button startButton = new Button("Next Searchstep");
         Button reloadField = new Button("Reload field");
         Button safeCurrentField = new Button("Safe field");
-
-        startButton.setAlignment(Pos.CENTER);
-        reloadField.setAlignment(Pos.CENTER);
         reloadField.setOnAction(e -> {
             startButton.setDisable(false);
             visualizerField.resetField(parent);
             visualizerField.setSearchAlgorithm(getSelectedSearchAlgorithm(algorithmCombo.getValue()));
         });
         startButton.setOnAction(e -> {
-            boolean searchFinished = visualizerField.nextSearchStep();
-            if (searchFinished){
-                startButton.setDisable(true);
+            for(int i = 0; i<amountOfSearchStepsButton.getAmount(); i++){
+                boolean searchFinished = visualizerField.nextSearchStep();
+                if (searchFinished){
+                    startButton.setDisable(true);
+                    break;
+                }
             }
         });
         safeCurrentField.setOnAction(e->{
@@ -75,7 +77,7 @@ public class VisualizerHeader {
         });
         visualizerField.setSearchAlgorithm(new BreadthFirstSearch());
 
-        algorithms.getChildren().addAll(algorithmCombo, startButton, reloadField, safeCurrentField);
+        algorithms.getChildren().addAll(algorithmCombo, amountOfSearchStepsButton, startButton, reloadField, safeCurrentField);
 
         return algorithms;
     }

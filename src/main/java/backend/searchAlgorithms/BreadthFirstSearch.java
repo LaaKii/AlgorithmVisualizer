@@ -13,8 +13,6 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private List<Index> currentIndex = new ArrayList<>();
-    //Has to be set below 0, since the first Searchstep is always 0.
-    private int indexOfLastSearchStep = -1;
     private GridPane searchField = new GridPane();
     private Button[][] buttons;
     private boolean firstSearch=true;

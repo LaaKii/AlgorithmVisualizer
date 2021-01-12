@@ -1,24 +1,34 @@
 package frontend;
 
-import javafx.scene.control.Alert;
-
-import java.awt.*;
+import javafx.scene.control.TextField;
 
 public class NumberTextField extends TextField {
 
+    public NumberTextField(String text){
+        super(text);
+    }
+
+    public int getAmount(){
+        return Integer.parseInt(getText());
+    }
+
     @Override
-    public void setText(String inputText) {
-        if (isTextNumericOnly(inputText)) {
-            Color background = getBackground();
-            super.setText(inputText);
+    public void replaceText(int i, int i1, String s) {
+        if (isTextNumericOnly(s)) {
+            super.replaceText(i,i1,s);
+            setStyle("");
         } else {
-            setBackground(Color.RED);
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Wrong value in Field");
-            String s = "Only numeric values are allowed in this field";
-            alert.setContentText(s);
-            alert.show();
+            setStyle("-fx-control-inner-background: #a81830");
+        }
+    }
+
+    @Override
+    public void replaceSelection(String s) {
+        if (isTextNumericOnly(s)) {
+            super.replaceSelection(s);
+            setStyle("");
+        } else {
+            setStyle("-fx-control-inner-background: #a81830");
         }
     }
 
