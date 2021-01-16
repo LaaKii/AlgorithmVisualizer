@@ -11,6 +11,12 @@ public class Index {
         this.column=column;
     }
 
+    public Index(int row, int column, Index previousIndex) {
+        this.row=row;
+        this.column=column;
+        this.previousIndex = previousIndex;
+    }
+
     public void setPreviousIndex(Index previous){
         this.previousIndex=previous;
     }
@@ -36,7 +42,7 @@ public class Index {
     }
 
     public static Index copy(Index index){
-        Index ind = new Index(index.getRow(), index.getColumn());
+        Index ind = new Index(index.getRow(), index.getColumn(), index.getPreviousIndex());
         return ind;
     }
 }

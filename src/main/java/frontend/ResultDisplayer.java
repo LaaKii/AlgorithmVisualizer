@@ -12,7 +12,6 @@ public class ResultDisplayer {
             searchField.getChildren().remove(visitedButton);
             visitedButton.setStyle("-fx-background-color: #f1f514; ");
             searchField.add(visitedButton, index.getColumn(), index.getRow());
-            System.out.println("["+index.getRow()+"]["+index.getColumn()+"]");
             index = index.getPreviousIndex();
         }
     }

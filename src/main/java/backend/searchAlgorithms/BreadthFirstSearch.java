@@ -8,14 +8,13 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class BreadthFirstSearch implements SearchAlgorithm {
 
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private List<Index> currentIndex = new ArrayList<>();
     private GridPane searchField = new GridPane();
     private Button[][] buttons;
-    private boolean firstSearch=true;
+    private boolean firstSearch = true;
     boolean[][] visited = null;
 
     @Override
@@ -25,7 +24,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
         boolean searchFinished = false;
 
-        if (visited==null){
+        if (visited == null) {
             visited = new boolean[searchField.getRowCount()][searchField.getColumnCount()];
         }
         //TODO change this with second if
@@ -35,23 +34,23 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
         for (Index index : currentIndex) {
             searchFinished = searchIndexInEveryDirection(index);
-            if (searchFinished){
-                System.out.println("Target found at: [" + index.getRow()+"]["+index.getColumn()+"]");
+            if (searchFinished) {
+                System.out.println("Target found at: [" + index.getRow() + "][" + index.getColumn() + "]");
                 new ResultDisplayer().displayResult(buttons, index, searchField);
                 return true;
             }
         }
-        if (firstSearch){
-            visited[startField.getRow()][startField.getColumn()]=true;
-            firstSearch=false;
+        if (firstSearch) {
+            visited[startField.getRow()][startField.getColumn()] = true;
+            firstSearch = false;
         }
 
         currentIndex = List.copyOf(indexToContinueSearch);
-        if (currentIndex.size()==0){
+        if (currentIndex.size() == 0) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText("Target could not be found");
-            String s ="Either there is no target or the target couldn't be reached";
+            String s = "Either there is no target or the target couldn't be reached";
             alert.setContentText(s);
             alert.show();
             return true;
@@ -62,15 +61,15 @@ public class BreadthFirstSearch implements SearchAlgorithm {
 
 
     public boolean searchIndexInEveryDirection(Index index) {
-        if (checkBelow(index)||checkAbove(index)||checkLeft(index)||checkRight(index)){
+        if (checkBelow(index) || checkAbove(index) || checkLeft(index) || checkRight(index)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     private boolean checkLeft(Index index) {
-        if (index.getColumn()-1 >= 0 && !visited[index.getRow()][index.getColumn()-1]) {
+        if (index.getColumn() - 1 >= 0 && !visited[index.getRow()][index.getColumn() - 1]) {
             Index leftIndex = Index.copy(index);
             leftIndex.setPreviousIndex(index);
             leftIndex.setColumn(leftIndex.getColumn() - 1);
@@ -80,7 +79,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
     }
 
     private boolean checkRight(Index index) {
-        if (index.getColumn()+1 < buttons[index.getRow()].length && !visited[index.getRow()][index.getColumn()+1]) {
+        if (index.getColumn() + 1 < buttons[index.getRow()].length && !visited[index.getRow()][index.getColumn() + 1]) {
             Index rightIndex = Index.copy(index);
             rightIndex.setPreviousIndex(index);
             rightIndex.setColumn(rightIndex.getColumn() + 1);
@@ -90,7 +89,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
     }
 
     private boolean checkAbove(Index index) {
-        if (index.getRow()-1 >= 0 && !visited[index.getRow()-1][index.getColumn()]) {
+        if (index.getRow() - 1 >= 0 && !visited[index.getRow() - 1][index.getColumn()]) {
             Index aboveIndex = Index.copy(index);
             aboveIndex.setPreviousIndex(index);
             aboveIndex.setRow(aboveIndex.getRow() - 1);
@@ -100,7 +99,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
     }
 
     private boolean checkBelow(Index index) {
-        if (index.getRow()+1 < buttons.length && !visited[index.getRow()+1][index.getColumn()]) {
+        if (index.getRow() + 1 < buttons.length && !visited[index.getRow() + 1][index.getColumn()]) {
             Index belowIndex = Index.copy(index);
             belowIndex.setPreviousIndex(index);
             belowIndex.setRow(belowIndex.getRow() + 1);
@@ -113,9 +112,6 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         int row = index.getRow();
         int column = index.getColumn();
         visited[row][column] = true;
-        if (index.getRow()==10&&index.getColumn()==12){
-            System.out.println("burr");
-        }
         Button visitedButton = buttons[row][column];
         if (visitedButton.getText().equals("Z")) {
             return true;
