@@ -5,25 +5,34 @@ public class Index {
     private int row;
     private int column;
     private Index previousIndex;
+    private int manhattanDistance;
 
     public Index(int row, int column) {
-        this.row=row;
-        this.column=column;
+        this.row = row;
+        this.column = column;
     }
 
-    public Index(){}
+    public Index() {
+    }
 
     public Index(int row, int column, Index previousIndex) {
-        this.row=row;
-        this.column=column;
+        this.row = row;
+        this.column = column;
         this.previousIndex = previousIndex;
     }
 
-    public void setPreviousIndex(Index previous){
-        this.previousIndex=previous;
+    public Index(int row, int column, Index previousIndex, int manhattanDistance) {
+        this.row = row;
+        this.column = column;
+        this.previousIndex = previousIndex;
+        this.manhattanDistance = manhattanDistance;
     }
 
-    public Index getPreviousIndex(){
+    public void setPreviousIndex(Index previous) {
+        this.previousIndex = previous;
+    }
+
+    public Index getPreviousIndex() {
         return previousIndex;
     }
 
@@ -43,13 +52,21 @@ public class Index {
         this.column = column;
     }
 
-    public static Index copy(Index index){
+    public int getManhattanDistance() {
+        return manhattanDistance;
+    }
+
+    public static Index copy(Index index) {
         Index ind = new Index(index.getRow(), index.getColumn(), index.getPreviousIndex());
         return ind;
     }
 
-    public boolean isSameField(Index indexToCheckForSameField){
-        return this.getColumn()== indexToCheckForSameField.getColumn() && this.getRow() == indexToCheckForSameField.getRow();
+    public void setManhattanDistance(int distance) {
+        this.manhattanDistance = distance;
+    }
+
+    public boolean isSameField(Index indexToCheckForSameField) {
+        return this.getColumn() == indexToCheckForSameField.getColumn() && this.getRow() == indexToCheckForSameField.getRow();
     }
 
     @Override
