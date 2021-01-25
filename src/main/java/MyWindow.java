@@ -18,7 +18,7 @@ public class MyWindow extends Application {
         //TODO use runtime arguments for path injection
         Path pathToConfig = Paths.get("input.json");
 
-        System.out.println("New window creating now...");
+        System.out.println("Starting Algorithm Visualizer...");
         stage.setTitle("First window");
         stage.setWidth(1000);
         stage.setHeight(900);

@@ -69,8 +69,7 @@ public class VisualizerField {
 
     public boolean nextSearchStep(){
         if (searchAlgorithm !=null){
-           boolean searchFinished = searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField, endField);
-           return searchFinished;
+          return searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField, endField);
         } else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Algorithm Error");

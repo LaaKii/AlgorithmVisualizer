@@ -15,8 +15,14 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
 
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
-        startBreadthFirstSearch.doSearch(searchField, buttons, startField);
-        endBreadthFirstSearch.doSearch(searchField, buttons, endField);
+        boolean startSearchTerminated = startBreadthFirstSearch.doSearch(searchField, buttons, startField);
+        if (startSearchTerminated){
+            return true;
+        }
+        boolean endSearchTerminated = endBreadthFirstSearch.doSearch(searchField, buttons, endField);
+        if(endSearchTerminated){
+            return true;
+        }
 
         startBreadthFirstSearch.getCurrentIndex().stream().forEach(System.out::println);
         System.out.println("---------------------------");
