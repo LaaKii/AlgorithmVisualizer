@@ -1,11 +1,12 @@
 package backend.searchAlgorithms;
 
+import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
 import frontend.ResultDisplayer;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
-public class DepthFirstSearch implements SearchAlgorithm {
+public class DepthFirstBasicSearch implements BasicSearchAlgorithm {
     private GridPane searchField;
     private Button[][] buttons;
     boolean[][] visited = null;
@@ -26,7 +27,7 @@ public class DepthFirstSearch implements SearchAlgorithm {
 
         if (searchIndexInDepth(currentField)) {
             System.out.println("Target found at: [" + currentField.getRow() + "][" + currentField.getColumn() + "]");
-            new ResultDisplayer().displayResult(buttons, currentField, searchField);
+            ResultDisplayer.displayResult(buttons, currentField, searchField);
             return true;
         }else if (targetCannotBeReached){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -138,4 +139,8 @@ public class DepthFirstSearch implements SearchAlgorithm {
         }
     }
 
+    @Override
+    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
+        return doSearch(searchField, buttons, startField);
+    }
 }

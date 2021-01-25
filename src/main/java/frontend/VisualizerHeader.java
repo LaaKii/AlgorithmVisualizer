@@ -1,8 +1,7 @@
 package frontend;
 
-import backend.searchAlgorithms.BreadthFirstSearch;
-import backend.searchAlgorithms.DepthFirstSearch;
-import backend.searchAlgorithms.SearchAlgorithm;
+import backend.searchAlgorithms.*;
+import backend.searchAlgorithms.interfaces.SearchAlgorithm;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -70,12 +69,14 @@ public class VisualizerHeader {
 
         //TODO load from file or something like that
         algorithmCombo.getItems().add("Breadth-First-Search");
+        algorithmCombo.getItems().add("Bidirectional Breadth-First-Search");
         algorithmCombo.getItems().add("Depth-First-Search");
+        algorithmCombo.getItems().add("Greedy-First-Search");
         algorithmCombo.getSelectionModel().select(0);
         algorithmCombo.valueProperty().addListener((obs, s, t1) -> {
                 visualizerField.setSearchAlgorithm(getSelectedSearchAlgorithm(t1));
         });
-        visualizerField.setSearchAlgorithm(new BreadthFirstSearch());
+        visualizerField.setSearchAlgorithm(new BreadthFirstBasicSearch());
 
         algorithms.getChildren().addAll(algorithmCombo, amountOfSearchStepsButton, startButton, reloadField, safeCurrentField);
 
@@ -84,9 +85,13 @@ public class VisualizerHeader {
 
     private SearchAlgorithm getSelectedSearchAlgorithm(String selectedValue){
         if (selectedValue.equals("Breadth-First-Search")){
-           return new BreadthFirstSearch();
+           return new BreadthFirstBasicSearch();
         }else if(selectedValue.equals("Depth-First-Search")){
-           return new DepthFirstSearch();
+           return new DepthFirstBasicSearch();
+        }else if(selectedValue.equals("Bidirectional Breadth-First-Search")){
+            return new BidirectionalBreadthFirstSearch();
+        }else if(selectedValue.equals("Greedy-First-Search")){
+            return new GreedyFirstSearch();
         }else{
             throw new IllegalArgumentException("Selected Algorithm( " + selectedValue + " ) can't be resolved");
         }

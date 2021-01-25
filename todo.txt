@@ -1,3 +1,8 @@
 - show tooltips on right side
 - remove unnecessary console output
 - disallow change of search algorithm when search started
+- implement forest like structure to make us of weighted algorithm
+- read algorithms from textfile
+- lambda in bidirectional swarm... Nothing to add... :D
+- TEST!!!!
+- Villt. currentIndex als Map implementieren

@@ -1,5 +1,6 @@
 package backend.searchAlgorithms;
 
+import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
 import frontend.ResultDisplayer;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -8,7 +9,7 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreadthFirstSearch implements SearchAlgorithm {
+public class BreadthFirstBasicSearch implements BasicSearchAlgorithm {
 
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private List<Index> currentIndex = new ArrayList<>();
@@ -36,7 +37,7 @@ public class BreadthFirstSearch implements SearchAlgorithm {
             searchFinished = searchIndexInEveryDirection(index);
             if (searchFinished) {
                 System.out.println("Target found at: [" + index.getRow() + "][" + index.getColumn() + "]");
-                new ResultDisplayer().displayResult(buttons, index, searchField);
+                ResultDisplayer.displayResult(buttons, index, searchField);
                 return true;
             }
         }
@@ -127,4 +128,12 @@ public class BreadthFirstSearch implements SearchAlgorithm {
         }
     }
 
+    public List<Index> getCurrentIndex() {
+        return currentIndex;
+    }
+
+    @Override
+    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
+        return doSearch(searchField, buttons, startField);
+    }
 }

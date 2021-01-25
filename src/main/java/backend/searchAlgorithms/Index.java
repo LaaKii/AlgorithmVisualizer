@@ -11,6 +11,8 @@ public class Index {
         this.column=column;
     }
 
+    public Index(){}
+
     public Index(int row, int column, Index previousIndex) {
         this.row=row;
         this.column=column;
@@ -44,5 +46,17 @@ public class Index {
     public static Index copy(Index index){
         Index ind = new Index(index.getRow(), index.getColumn(), index.getPreviousIndex());
         return ind;
+    }
+
+    public boolean isSameField(Index indexToCheckForSameField){
+        return this.getColumn()== indexToCheckForSameField.getColumn() && this.getRow() == indexToCheckForSameField.getRow();
+    }
+
+    @Override
+    public String toString() {
+        return "Index{" +
+                "row=" + row +
+                ", column=" + column +
+                '}';
     }
 }

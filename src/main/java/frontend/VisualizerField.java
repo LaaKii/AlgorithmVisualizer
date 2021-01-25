@@ -1,7 +1,7 @@
 package frontend;
 
 import backend.searchAlgorithms.Index;
-import backend.searchAlgorithms.SearchAlgorithm;
+import backend.searchAlgorithms.interfaces.SearchAlgorithm;
 import fileprocessing.JSONFileProcessor;
 import fileprocessing.FileProcessor;
 import javafx.geometry.Pos;
@@ -21,7 +21,7 @@ public class VisualizerField {
     private Path pathToConfig;
 
     //needed for heuristic search algorithms
-    private Button endField;
+    private Index endField;
     private FileProcessor fileProcessor = new JSONFileProcessor();
 
     public VisualizerField(Path pathToConfig) {
@@ -55,7 +55,7 @@ public class VisualizerField {
                     startFound=true;
                 }else if(!endFound && tempButton.getText().equals("Z")){
                     tempButton.setStyle("-fx-background-color: #f1f514; ");
-                    endField = tempButton;
+                    endField = new Index(i,j);
                     endFound = true;
                 }else if(tempButton.getText().equals("X")){
                     tempButton.setStyle("-fx-background-color: #aaadb3; ");
@@ -68,8 +68,8 @@ public class VisualizerField {
     }
 
     public boolean nextSearchStep(){
-        if (searchAlgorithm!=null){
-           boolean searchFinished = searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField);
+        if (searchAlgorithm !=null){
+           boolean searchFinished = searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField, endField);
            return searchFinished;
         } else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -83,7 +83,7 @@ public class VisualizerField {
     }
 
     public void setSearchAlgorithm(SearchAlgorithm searchAlgorithm){
-        this.searchAlgorithm=searchAlgorithm;
+        this.searchAlgorithm = searchAlgorithm;
     }
 
     public void resetField(VBox parent){

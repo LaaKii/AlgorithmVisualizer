@@ -6,8 +6,8 @@ import javafx.scene.layout.GridPane;
 
 public class ResultDisplayer {
 
-    public void displayResult(Button[][] buttons, Index index, GridPane searchField){
-        while(!buttons[index.getRow()][index.getColumn()].getText().equals("S")){
+    public static void displayResult(Button[][] buttons, Index index, GridPane searchField){
+        while(index!=null && (!buttons[index.getRow()][index.getColumn()].getText().equals("S") || !buttons[index.getRow()][index.getColumn()].getText().equals("Z"))){
             Button visitedButton = buttons[index.getRow()][index.getColumn()];
             searchField.getChildren().remove(visitedButton);
             visitedButton.setStyle("-fx-background-color: #f1f514; ");
