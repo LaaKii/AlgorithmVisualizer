@@ -1,6 +1,6 @@
 package backend.searchAlgorithms;
 
-public class Index {
+public class Index implements Comparable<Index>{
 
     private int row;
     private int column;
@@ -75,5 +75,11 @@ public class Index {
                 "row=" + row +
                 ", column=" + column +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(Index other) {
+        return Integer.compare(this.manhattanDistance, other.getManhattanDistance());
     }
 }

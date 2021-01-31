@@ -1,5 +1,6 @@
 package backend.searchAlgorithms;
 
-public enum DirectionToGo {
+public enum Direction {
     NORTH, EAST, WEST, SOUTH, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, EVERYWHERE;
+
 }

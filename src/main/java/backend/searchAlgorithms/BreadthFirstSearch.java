@@ -9,7 +9,7 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreadthFirstBasicSearch implements BasicSearchAlgorithm {
+public class BreadthFirstSearch implements BasicSearchAlgorithm {
 
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private List<Index> currentIndex = new ArrayList<>();
@@ -135,5 +135,9 @@ public class BreadthFirstBasicSearch implements BasicSearchAlgorithm {
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
         return doSearch(searchField, buttons, startField);
+    }
+
+    public boolean[][] getVisited() {
+        return visited;
     }
 }

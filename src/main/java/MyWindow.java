@@ -1,4 +1,4 @@
-import backend.searchAlgorithms.BreadthFirstBasicSearch;
+import backend.searchAlgorithms.BreadthFirstSearch;
 import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
 import frontend.VisualizerField;
 import frontend.VisualizerHeader;
@@ -27,7 +27,7 @@ public class MyWindow extends Application {
 
 
         VisualizerField visualizerField = new VisualizerField(pathToConfig);
-        BasicSearchAlgorithm basicSearchAlgorithm = new BreadthFirstBasicSearch();
+        BasicSearchAlgorithm basicSearchAlgorithm = new BreadthFirstSearch();
         visualizerField.setSearchAlgorithm(basicSearchAlgorithm);
         VisualizerHeader visualizerHeader = new VisualizerHeader(visualizerField, parent);
 

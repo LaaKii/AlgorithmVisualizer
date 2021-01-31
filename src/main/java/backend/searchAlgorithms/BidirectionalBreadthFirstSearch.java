@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm {
 
-    BreadthFirstBasicSearch startBreadthFirstSearch = new BreadthFirstBasicSearch();
-    BreadthFirstBasicSearch endBreadthFirstSearch = new BreadthFirstBasicSearch();
+    BreadthFirstSearch startBreadthFirstSearch = new BreadthFirstSearch();
+    BreadthFirstSearch endBreadthFirstSearch = new BreadthFirstSearch();
 
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {

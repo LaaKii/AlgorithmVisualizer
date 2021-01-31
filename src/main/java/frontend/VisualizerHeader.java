@@ -76,7 +76,7 @@ public class VisualizerHeader {
         algorithmCombo.valueProperty().addListener((obs, s, t1) -> {
                 visualizerField.setSearchAlgorithm(getSelectedSearchAlgorithm(t1));
         });
-        visualizerField.setSearchAlgorithm(new BreadthFirstBasicSearch());
+        visualizerField.setSearchAlgorithm(new BreadthFirstSearch());
 
         algorithms.getChildren().addAll(algorithmCombo, amountOfSearchStepsButton, startButton, reloadField, safeCurrentField);
 
@@ -85,9 +85,9 @@ public class VisualizerHeader {
 
     private SearchAlgorithm getSelectedSearchAlgorithm(String selectedValue){
         if (selectedValue.equals("Breadth-First-Search")){
-           return new BreadthFirstBasicSearch();
+           return new BreadthFirstSearch();
         }else if(selectedValue.equals("Depth-First-Search")){
-           return new DepthFirstBasicSearch();
+           return new DepthFirstSearch();
         }else if(selectedValue.equals("Bidirectional Breadth-First-Search")){
             return new BidirectionalBreadthFirstSearch();
         }else if(selectedValue.equals("Greedy-First-Search")){

@@ -6,7 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
-public class DepthFirstBasicSearch implements BasicSearchAlgorithm {
+public class DepthFirstSearch implements BasicSearchAlgorithm {
     private GridPane searchField;
     private Button[][] buttons;
     boolean[][] visited = null;
