@@ -8,3 +8,5 @@
 - Villt. currentIndex als Map implementieren
 - search algorithms should extend instead of implement, because of same members
 - depth-first-search seems not to work properly (going up)
+
+- Frontend bissle schöner mache
