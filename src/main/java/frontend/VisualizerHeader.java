@@ -1,6 +1,9 @@
 package frontend;
 
-import backend.searchAlgorithms.*;
+import backend.searchAlgorithms.BidirectionalBreadthFirstSearch;
+import backend.searchAlgorithms.BreadthFirstSearch;
+import backend.searchAlgorithms.DepthFirstSearch;
+import backend.searchAlgorithms.GreedyFirstSearch;
 import backend.searchAlgorithms.interfaces.SearchAlgorithm;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +13,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.nio.file.Path;
 
@@ -26,10 +31,14 @@ public class VisualizerHeader {
     public Node getHeader() {
         VBox header = new VBox();
         HBox headLine = new HBox();
+        VBox.setMargin(headLine, new Insets(0,0,50,0));
         headLine.setPadding(new Insets(15,12,15,12));
         headLine.setAlignment(Pos.CENTER);
+        headLine.setStyle("-fx-background-color: #333333;");
         Label headerLabel = new Label("Algorithm Visualizer");
         headerLabel.setAlignment(Pos.CENTER);
+        headerLabel.setTextFill(Color.web("#FFFFFF"));
+        headerLabel.setFont(Font.font("Verdana", 35));
         headLine.getChildren().add(headerLabel);
         HBox algorithmHeader = createAlgorithmHeader();
 

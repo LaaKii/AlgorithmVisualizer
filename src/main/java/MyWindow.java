@@ -19,9 +19,9 @@ public class MyWindow extends Application {
         Path pathToConfig = Paths.get("input.json");
 
         System.out.println("Starting Algorithm Visualizer...");
-        stage.setTitle("First window");
+        stage.setTitle("Algorithm Visualizer");
         stage.setWidth(1000);
-        stage.setHeight(900);
+        stage.setHeight(700);
 
         VBox parent = new VBox();
 
@@ -31,7 +31,6 @@ public class MyWindow extends Application {
         visualizerField.setSearchAlgorithm(basicSearchAlgorithm);
         VisualizerHeader visualizerHeader = new VisualizerHeader(visualizerField, parent);
 
-        parent.setPadding(new Insets(10,50,50,50));
         parent.getChildren().addAll(visualizerHeader.getHeader(), visualizerField.createFieldByConfig(pathToConfig));
 
         Scene scene1 = new Scene(parent);
