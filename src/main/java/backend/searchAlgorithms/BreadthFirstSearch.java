@@ -140,4 +140,11 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     public boolean[][] getVisited() {
         return visited;
     }
+
+    public void doSearchForGreedyFirstSearch(GridPane searchField, Button[][] buttons, List<Index> currentIndex) {
+        this.currentIndex = currentIndex;
+        this.firstSearch=true;
+        //currentIndex.get(0) because this is the field with ne lowest manhattan distance to the goal
+        doSearch(searchField, buttons, currentIndex.get(0));
+    }
 }

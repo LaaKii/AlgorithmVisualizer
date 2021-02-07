@@ -45,8 +45,9 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
 
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
-            if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons)) {
-                List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo);
+            if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons, visited)) {
+//                breadthFirstSearchNeeded=false;
+                List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo, buttons);
                 for (Index nextIndex : nextIndices) {
                     if (checkEndPosition(nextIndex)) {
                         System.out.println("Target found at: [" + nextIndex.getRow() + "][" + nextIndex.getColumn() + "]");
@@ -61,7 +62,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         if(breadthFirstSearchNeeded) {
-            bfs.doSearch(searchField, buttons, currentIndex.get(0), endField);
+            bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex);
             currentIndex = bfs.getCurrentIndex();
         } else {
             currentIndex = List.copyOf(indexToContinueSearch);
