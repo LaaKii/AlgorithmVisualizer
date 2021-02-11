@@ -4,7 +4,7 @@
 - implement forest like structure to make use of weighted algorithm
 - read algorithms from textfile
 - lambda in bidirectional swarm... Nothing to add... :D
-- TEST!!!!
-- Villt. currentIndex als Map implementieren
+- tests
+- currentIndex could be implemented as a map for faster access
 - search algorithms should extend instead of implement, because of same members
 - depth-first-search seems not to work properly (going up)

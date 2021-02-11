@@ -16,7 +16,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     private GridPane searchField = new GridPane();
     private Button[][] buttons;
     private boolean firstSearch = true;
-//    boolean[][] visited = null;
+    private boolean isSearchForGreedyFirstSearch=false;
 
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField) {
@@ -44,14 +44,16 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
         }
 
         currentIndex = List.copyOf(indexToContinueSearch);
-        if (currentIndex.size() == 0) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText("Target could not be found");
-            String s = "Either there is no target or the target couldn't be reached";
-            alert.setContentText(s);
-            alert.show();
-            return true;
+        if (!isSearchForGreedyFirstSearch){
+            if (currentIndex.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText("Target could not be found");
+                String s = "Either there is no target or the target couldn't be reached";
+                alert.setContentText(s);
+                alert.show();
+                return true;
+            }
         }
         indexToContinueSearch.clear();
         return false;
@@ -136,10 +138,11 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
         return doSearch(searchField, buttons, startField);
     }
 
-    public void doSearchForGreedyFirstSearch(GridPane searchField, Button[][] buttons, List<Index> currentIndex) {
-        this.currentIndex = currentIndex;
+    public boolean doSearchForGreedyFirstSearch(GridPane searchField, Button[][] buttons, List<Index> currentIndex, Index indexWithNextLowestDistance) {
+        this.currentIndex = new ArrayList<>(currentIndex);
         this.firstSearch=true;
+        isSearchForGreedyFirstSearch = true;
         //currentIndex.get(0) because this is the field with ne lowest manhattan distance to the goal
-        doSearch(searchField, buttons, currentIndex.get(0));
+        return doSearch(searchField, buttons, indexWithNextLowestDistance);
     }
 }

@@ -20,6 +20,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private GridPane searchField = new GridPane();
     private FieldChecker fieldChecker = new FieldChecker();
     private BreadthFirstSearch bfs = new BreadthFirstSearch();
+    private Index indexWithShortestDistance;
 
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
@@ -37,6 +38,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         List<Index> modifiableList = new ArrayList<>(currentIndex);
         Collections.sort(modifiableList);
         currentIndex = modifiableList;
+        indexWithShortestDistance = currentIndex.get(0);
 
         boolean breadthFirstSearchNeeded = false;
 
@@ -58,8 +60,14 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         if(breadthFirstSearchNeeded) {
-            bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex);
+            bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
             currentIndex = bfs.getCurrentIndex();
+            //Current index is in a "tunnel"
+            while (currentIndex.size()==0){
+                indexWithShortestDistance = indexWithShortestDistance.getPreviousIndex();
+                bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
+                currentIndex = bfs.getCurrentIndex();
+            }
         } else {
             currentIndex = List.copyOf(indexToContinueSearch);
             indexToContinueSearch.clear();
