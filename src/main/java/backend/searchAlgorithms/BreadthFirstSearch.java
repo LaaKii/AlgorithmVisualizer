@@ -1,9 +1,9 @@
 package backend.searchAlgorithms;
 
 import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
+import frontend.Button;
 import frontend.ResultDisplayer;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     private GridPane searchField = new GridPane();
     private Button[][] buttons;
     private boolean firstSearch = true;
-    boolean[][] visited = null;
+//    boolean[][] visited = null;
 
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField) {
@@ -25,9 +25,6 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
 
         boolean searchFinished = false;
 
-        if (visited == null) {
-            visited = new boolean[searchField.getRowCount()][searchField.getColumnCount()];
-        }
         //TODO change this with second if
         if (firstSearch) {
             currentIndex.add(startField);
@@ -42,7 +39,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
             }
         }
         if (firstSearch) {
-            visited[startField.getRow()][startField.getColumn()] = true;
+            buttons[startField.getRow()][startField.getColumn()].setVisited(true);
             firstSearch = false;
         }
 
@@ -62,6 +59,8 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
 
 
     public boolean searchIndexInEveryDirection(Index index) {
+        //Could be written like: return checkBelow(index) || ...
+        //I think its more readable by using an if-statement
         if (checkBelow(index) || checkAbove(index) || checkLeft(index) || checkRight(index)) {
             return true;
         } else {
@@ -70,7 +69,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkLeft(Index index) {
-        if (index.getColumn() - 1 >= 0 && !visited[index.getRow()][index.getColumn() - 1]) {
+        if (index.getColumn() - 1 >= 0 && !buttons[index.getRow()][index.getColumn() - 1].isVisited()) {
             Index leftIndex = Index.copy(index);
             leftIndex.setPreviousIndex(index);
             leftIndex.setColumn(leftIndex.getColumn() - 1);
@@ -80,7 +79,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkRight(Index index) {
-        if (index.getColumn() + 1 < buttons[index.getRow()].length && !visited[index.getRow()][index.getColumn() + 1]) {
+        if (index.getColumn() + 1 < buttons[index.getRow()].length && !buttons[index.getRow()][index.getColumn() + 1].isVisited()) {
             Index rightIndex = Index.copy(index);
             rightIndex.setPreviousIndex(index);
             rightIndex.setColumn(rightIndex.getColumn() + 1);
@@ -90,7 +89,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkAbove(Index index) {
-        if (index.getRow() - 1 >= 0 && !visited[index.getRow() - 1][index.getColumn()]) {
+        if (index.getRow() - 1 >= 0 && !buttons[index.getRow() - 1][index.getColumn()].isVisited()) {
             Index aboveIndex = Index.copy(index);
             aboveIndex.setPreviousIndex(index);
             aboveIndex.setRow(aboveIndex.getRow() - 1);
@@ -100,7 +99,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkBelow(Index index) {
-        if (index.getRow() + 1 < buttons.length && !visited[index.getRow() + 1][index.getColumn()]) {
+        if (index.getRow() + 1 < buttons.length && !buttons[index.getRow() + 1][index.getColumn()].isVisited()) {
             Index belowIndex = Index.copy(index);
             belowIndex.setPreviousIndex(index);
             belowIndex.setRow(belowIndex.getRow() + 1);
@@ -112,7 +111,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     private boolean checkEndPosition(Index index) {
         int row = index.getRow();
         int column = index.getColumn();
-        visited[row][column] = true;
+        buttons[index.getRow()][index.getColumn()].setVisited(true);
         Button visitedButton = buttons[row][column];
         if (visitedButton.getText().equals("Z")) {
             return true;
@@ -135,10 +134,6 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
         return doSearch(searchField, buttons, startField);
-    }
-
-    public boolean[][] getVisited() {
-        return visited;
     }
 
     public void doSearchForGreedyFirstSearch(GridPane searchField, Button[][] buttons, List<Index> currentIndex) {

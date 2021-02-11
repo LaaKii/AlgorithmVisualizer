@@ -2,6 +2,16 @@ package frontend;
 
 public class Button extends javafx.scene.control.Button {
 
+    private boolean visited = false;
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
     public void switchField(String field){
         if (field.equals("0")){
             super.setText("X");
@@ -11,6 +21,8 @@ public class Button extends javafx.scene.control.Button {
             super.setStyle("");
         }
     }
+
+
 
 
     public Button(String text){

@@ -1,8 +1,8 @@
 package backend.searchAlgorithms;
 
 import backend.searchAlgorithms.interfaces.HeuristicSearchAlgorithm;
+import frontend.Button;
 import frontend.ResultDisplayer;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -14,9 +14,7 @@ import java.util.List;
 public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
 
     private List<Index> currentIndex = new ArrayList<>();
-    private Index indexWithShortestManhattanDistance = new Index(10000, 10000, new Index(), Integer.MAX_VALUE);
     private boolean firstRun = true;
-    private boolean[][] visited;
     private Button[][] buttons;
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private GridPane searchField = new GridPane();
@@ -29,7 +27,6 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         this.searchField = searchField;
         if (firstRun) {
             currentIndex.add(startField);
-            visited = new boolean[buttons.length][buttons[0].length];
             firstRun = false;
         }
 
@@ -45,8 +42,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
 
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
-            if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons, visited)) {
-//                breadthFirstSearchNeeded=false;
+            if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons)) {
                 List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo, buttons);
                 for (Index nextIndex : nextIndices) {
                     if (checkEndPosition(nextIndex)) {
@@ -75,7 +71,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private boolean checkEndPosition(Index index) {
         int row = index.getRow();
         int column = index.getColumn();
-        visited[row][column] = true;
+        buttons[row][column].setVisited(true);
         Button visitedButton = buttons[row][column];
         if (visitedButton.getText().equals("Z")) {
             return true;

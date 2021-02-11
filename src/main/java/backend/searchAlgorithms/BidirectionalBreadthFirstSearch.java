@@ -1,8 +1,8 @@
 package backend.searchAlgorithms;
 
 import backend.searchAlgorithms.interfaces.HeuristicSearchAlgorithm;
+import frontend.Button;
 import frontend.ResultDisplayer;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
