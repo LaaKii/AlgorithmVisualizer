@@ -47,6 +47,7 @@ public class VisualizerHeader {
         Button safeCurrentField = new Button("Safe field");
         reloadField.setOnAction(e -> {
             startButton.setDisable(false);
+            algorithmCombo.setDisable(false);
             visualizerField.resetField(parent);
             visualizerField.setSearchAlgorithm(getSelectedSearchAlgorithm(algorithmCombo.getValue()));
         });

@@ -25,7 +25,6 @@ public class MyWindow extends Application {
 
         VBox parent = new VBox();
 
-
         VisualizerField visualizerField = new VisualizerField(pathToConfig);
         BasicSearchAlgorithm basicSearchAlgorithm = new BreadthFirstSearch();
         visualizerField.setSearchAlgorithm(basicSearchAlgorithm);

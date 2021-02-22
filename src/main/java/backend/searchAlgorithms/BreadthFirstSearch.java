@@ -61,8 +61,6 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
 
 
     public boolean searchIndexInEveryDirection(Index index) {
-        //Could be written like: return checkBelow(index) || ...
-        //I think its more readable by using an if-statement
         if (checkBelow(index) || checkAbove(index) || checkLeft(index) || checkRight(index)) {
             return true;
         } else {

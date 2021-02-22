@@ -65,11 +65,6 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         if(breadthFirstSearchNeeded) {
-            //Todo store buttons before flush and then restore them...
-//            if(flushOfAllVisitedNeeded){
-//                flushAllVisited(buttons);
-//                flushOfAllVisitedNeeded=false;
-//            }
             bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
             currentIndex = bfs.getCurrentIndex();
             //Current index is in a "tunnel"
@@ -85,14 +80,6 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         return false;
-    }
-
-    private void flushAllVisited(Button[][] buttons) {
-        for(int i = 0; i<buttons.length; i++){
-            for (int j = 0; j<buttons[i].length; j++){
-                buttons[i][j].setVisited(false);
-            }
-        }
     }
 
     private boolean checkEndPosition(Index index) {
