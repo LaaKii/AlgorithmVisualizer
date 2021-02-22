@@ -28,4 +28,8 @@ public class Button extends javafx.scene.control.Button {
     public Button(String text){
         super.setText(text);
     }
+
+    public boolean isStartField() {
+        return getText().equals("S");
+    }
 }

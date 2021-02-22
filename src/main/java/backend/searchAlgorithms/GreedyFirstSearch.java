@@ -6,6 +6,7 @@ import frontend.ResultDisplayer;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private FieldChecker fieldChecker = new FieldChecker();
     private BreadthFirstSearch bfs = new BreadthFirstSearch();
     private Index indexWithShortestDistance;
+    boolean flushOfAllVisitedNeeded = false;
 
     @Override
     public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
@@ -42,9 +44,12 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
 
         boolean breadthFirstSearchNeeded = false;
 
+
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
             if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons)) {
+                breadthFirstSearchNeeded=false;
+                flushOfAllVisitedNeeded=true;
                 List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo, buttons);
                 for (Index nextIndex : nextIndices) {
                     if (checkEndPosition(nextIndex)) {
@@ -60,11 +65,17 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         if(breadthFirstSearchNeeded) {
+            //Todo store buttons before flush and then restore them...
+//            if(flushOfAllVisitedNeeded){
+//                flushAllVisited(buttons);
+//                flushOfAllVisitedNeeded=false;
+//            }
             bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
             currentIndex = bfs.getCurrentIndex();
             //Current index is in a "tunnel"
             while (currentIndex.size()==0){
                 indexWithShortestDistance = indexWithShortestDistance.getPreviousIndex();
+                currentIndex = new ArrayList<>(Arrays.asList(indexWithShortestDistance));
                 bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
                 currentIndex = bfs.getCurrentIndex();
             }
@@ -74,6 +85,14 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         return false;
+    }
+
+    private void flushAllVisited(Button[][] buttons) {
+        for(int i = 0; i<buttons.length; i++){
+            for (int j = 0; j<buttons[i].length; j++){
+                buttons[i][j].setVisited(false);
+            }
+        }
     }
 
     private boolean checkEndPosition(Index index) {
