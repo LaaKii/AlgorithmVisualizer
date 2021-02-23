@@ -24,10 +24,6 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
             return true;
         }
 
-        startBreadthFirstSearch.getCurrentIndex().stream().forEach(System.out::println);
-        System.out.println("---------------------------");
-        endBreadthFirstSearch.getCurrentIndex().stream().forEach(System.out::println);
-
         List<Index> intersectionBetweenStartAndEndSearch = startBreadthFirstSearch.getCurrentIndex().stream().filter(currentField -> {
             List<Index> endBreadthIndex = endBreadthFirstSearch.getCurrentIndex();
             for (Index ind : endBreadthIndex) {
