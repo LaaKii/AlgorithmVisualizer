@@ -20,8 +20,8 @@ public class MyWindow extends Application {
 
         System.out.println("Starting Algorithm Visualizer...");
         stage.setTitle("Algorithm Visualizer");
-        stage.setWidth(1000);
-        stage.setHeight(700);
+        stage.setWidth(1300);
+        stage.setHeight(800);
 
         VBox parent = new VBox();
 
