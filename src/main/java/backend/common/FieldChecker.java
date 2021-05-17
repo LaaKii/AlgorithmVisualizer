@@ -1,5 +1,7 @@
-package backend.searchAlgorithms;
+package backend.common;
 
+import backend.searchAlgorithms.Direction;
+import backend.searchAlgorithms.Index;
 import frontend.Button;
 
 import java.util.ArrayList;

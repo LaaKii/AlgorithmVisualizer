@@ -1,5 +1,6 @@
 package backend.searchAlgorithms;
 
+import backend.common.FieldChecker;
 import backend.searchAlgorithms.interfaces.HeuristicSearchAlgorithm;
 import frontend.Button;
 import frontend.ResultDisplayer;
