@@ -1,5 +1,6 @@
 package backend.searchAlgorithms;
 
+import backend.common.AlertManager;
 import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
 import frontend.Button;
 import frontend.ResultDisplayer;
@@ -46,17 +47,22 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
         currentIndex = List.copyOf(indexToContinueSearch);
         if (!isSearchForGreedyFirstSearch){
             if (currentIndex.size() == 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information");
-                alert.setHeaderText("Target could not be found");
-                String s = "Either there is no target or the target couldn't be reached";
-                alert.setContentText(s);
-                alert.show();
+                showSearchFinishedAlert();
                 return true;
             }
         }
         indexToContinueSearch.clear();
         return false;
+    }
+
+    private void showSearchFinishedAlert() {
+        AlertManager alertManager = new AlertManager.Builder()
+                .setTitle("Information")
+                .setHeaderText("Target could not be found")
+                .setContextText("Either there is no target or the target couldn't be reached")
+                .setAlertType(Alert.AlertType.INFORMATION)
+                .build();
+        alertManager.showAlert();
     }
 
 
