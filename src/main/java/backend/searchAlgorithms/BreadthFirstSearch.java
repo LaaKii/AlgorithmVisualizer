@@ -124,12 +124,16 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
         } else if (visitedButton.getText().equals("X")) {
             return false;
         } else {
-            searchField.getChildren().remove(visitedButton);
-            visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-            searchField.add(visitedButton, column, row);
-            indexToContinueSearch.add(index);
+            markFieldAsVisited(index, row, column, visitedButton);
             return false;
         }
+    }
+
+    private void markFieldAsVisited(Index index, int row, int column, Button visitedButton) {
+        searchField.getChildren().remove(visitedButton);
+        visitedButton.setStyle("-fx-background-color: #89c1c7 ");
+        searchField.add(visitedButton, column, row);
+        indexToContinueSearch.add(index);
     }
 
     public List<Index> getCurrentIndex() {
