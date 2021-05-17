@@ -24,19 +24,11 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
             return true;
         }
 
-        List<Index> intersectionBetweenStartAndEndSearch = startBreadthFirstSearch.getCurrentIndex().stream().filter(currentField -> {
-            List<Index> endBreadthIndex = endBreadthFirstSearch.getCurrentIndex();
-            for (Index ind : endBreadthIndex) {
-                if (currentField.getRow() == ind.getRow() && currentField.getColumn() == ind.getColumn()
-                    || currentField.getRow()+1 == ind.getRow() && currentField.getColumn() == ind.getColumn()
-                    || currentField.getRow()-1 == ind.getRow() && currentField.getColumn() == ind.getColumn()
-                    || currentField.getRow() == ind.getRow() && currentField.getColumn()+1 == ind.getColumn()
-                    || currentField.getRow() == ind.getRow() && currentField.getColumn()-1 == ind.getColumn()){
-                    return true;
-                }
-            }
-            return false;
-        }).collect(Collectors.toList());
+        List<Index> intersectionBetweenStartAndEndSearch = getIntersectedIndicesBetweenStartAndEndSearch();
+        return checkIfSearchIsFinished(searchField, buttons, intersectionBetweenStartAndEndSearch);
+    }
+
+    private boolean checkIfSearchIsFinished(GridPane searchField, Button[][] buttons, List<Index> intersectionBetweenStartAndEndSearch) {
         //Target found.
         if (intersectionBetweenStartAndEndSearch.size() > 0) {
             Index startSearchIndex = intersectionBetweenStartAndEndSearch.get(0);
@@ -57,6 +49,23 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
         } else {
             return false;
         }
+    }
+
+    private List<Index> getIntersectedIndicesBetweenStartAndEndSearch() {
+        List<Index> intersectionBetweenStartAndEndSearch = startBreadthFirstSearch.getCurrentIndex().stream().filter(currentField -> {
+            List<Index> endBreadthIndex = endBreadthFirstSearch.getCurrentIndex();
+            for (Index ind : endBreadthIndex) {
+                if (currentField.getRow() == ind.getRow() && currentField.getColumn() == ind.getColumn()
+                    || currentField.getRow()+1 == ind.getRow() && currentField.getColumn() == ind.getColumn()
+                    || currentField.getRow()-1 == ind.getRow() && currentField.getColumn() == ind.getColumn()
+                    || currentField.getRow() == ind.getRow() && currentField.getColumn()+1 == ind.getColumn()
+                    || currentField.getRow() == ind.getRow() && currentField.getColumn()-1 == ind.getColumn()){
+                    return true;
+                }
+            }
+            return false;
+        }).collect(Collectors.toList());
+        return intersectionBetweenStartAndEndSearch;
     }
 
 }
