@@ -37,7 +37,12 @@ public class JSONFileProcessor implements FileProcessor {
             e.printStackTrace();
         }
 
-        JSONArray matrix = (JSONArray) obj;
+        Button[][] result = getButtonsField((JSONArray) obj);
+        return result;
+    }
+
+    private Button[][] getButtonsField(JSONArray obj) {
+        JSONArray matrix = obj;
         Button[][] result = new Button[matrix.size()][((JSONArray) matrix.get(0)).size()];
         for(int i = 0; i<matrix.size(); i++){
             JSONArray row = ((JSONArray)matrix.get(i));
