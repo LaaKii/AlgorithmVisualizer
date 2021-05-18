@@ -134,12 +134,16 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
             currentField = nextSideIndex;
             return false;
         } else {
-            searchField.getChildren().remove(visitedButton);
-            visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-            searchField.add(visitedButton, column, row);
-            currentField = index;
+            markFieldAsVisited(index, row, column, visitedButton);
             return false;
         }
+    }
+
+    private void markFieldAsVisited(Index index, int row, int column, Button visitedButton) {
+        searchField.getChildren().remove(visitedButton);
+        visitedButton.setStyle("-fx-background-color: #89c1c7 ");
+        searchField.add(visitedButton, column, row);
+        currentField = index;
     }
 
     @Override
