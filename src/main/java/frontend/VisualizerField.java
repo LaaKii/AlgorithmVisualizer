@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.common.AlertManager;
 import backend.searchAlgorithms.Index;
 import backend.searchAlgorithms.interfaces.SearchAlgorithm;
 import fileprocessing.JSONFileProcessor;
@@ -72,14 +73,19 @@ public class VisualizerField {
         if (searchAlgorithm !=null){
           return searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField, endField);
         } else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Algorithm Error");
-            alert.setHeaderText("Algorithm not set");
-            String s ="Either the algorithm couldn't be recognized or it isn't set";
-            alert.setContentText(s);
-            alert.show();
+            showAlgorithmError();
             throw new NullPointerException("Search Algorithm isn't set");
         }
+    }
+
+    private void showAlgorithmError(){
+        AlertManager alertManager = new AlertManager.Builder()
+                .setTitle("Algorithm Error")
+                .setHeaderText("Algorithm not set")
+                .setContextText("Either the algorithm couldn't be recognized or it isn't set")
+                .setAlertType(Alert.AlertType.ERROR)
+                .build();
+        alertManager.showAlert();
     }
 
     public void setSearchAlgorithm(SearchAlgorithm searchAlgorithm){
