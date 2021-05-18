@@ -24,8 +24,7 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
             return true;
         }
 
-        List<Index> intersectionBetweenStartAndEndSearch = getIntersectedIndicesBetweenStartAndEndSearch();
-        return checkIfSearchIsFinished(searchField, buttons, intersectionBetweenStartAndEndSearch);
+        return checkIfSearchIsFinished(searchField, buttons, getIntersectedIndicesBetweenStartAndEndSearch());
     }
 
     private boolean checkIfSearchIsFinished(GridPane searchField, Button[][] buttons, List<Index> intersectionBetweenStartAndEndSearch) {
