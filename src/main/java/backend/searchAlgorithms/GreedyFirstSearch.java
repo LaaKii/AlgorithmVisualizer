@@ -43,21 +43,18 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         currentIndex = modifiableList;
         indexWithShortestDistance = currentIndex.get(0);
 
+        return canAnyIndexReachTheGoal(searchField, buttons, endField);
+    }
+
+    private boolean canAnyIndexReachTheGoal(GridPane searchField, Button[][] buttons, Index endField) {
         boolean breadthFirstSearchNeeded = false;
-
-
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
             if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons)) {
-                breadthFirstSearchNeeded=false;
+                breadthFirstSearchNeeded =false;
                 flushOfAllVisitedNeeded=true;
-                List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo, buttons);
-                for (Index nextIndex : nextIndices) {
-                    if (checkEndPosition(nextIndex)) {
-                        System.out.println("Target found at: [" + nextIndex.getRow() + "][" + nextIndex.getColumn() + "]");
-                        ResultDisplayer.displayResult(buttons, nextIndex, searchField);
-                        return true;
-                    }
+                if (checkIfTargetCanBeReached(searchField, buttons, index, directionToGo)){
+                    return true;
                 }
                 break;
             } else{
@@ -70,16 +67,31 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
             currentIndex = bfs.getCurrentIndex();
             //Current index is in a "tunnel"
             while (currentIndex.size()==0){
-                indexWithShortestDistance = indexWithShortestDistance.getPreviousIndex();
-                currentIndex = new ArrayList<>(Arrays.asList(indexWithShortestDistance));
-                bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
-                currentIndex = bfs.getCurrentIndex();
+                restartSearchWithRemainingIndex(searchField, buttons);
             }
         } else {
             currentIndex = List.copyOf(indexToContinueSearch);
             indexToContinueSearch.clear();
         }
+        return false;
+    }
 
+    private void restartSearchWithRemainingIndex(GridPane searchField, Button[][] buttons) {
+        indexWithShortestDistance = indexWithShortestDistance.getPreviousIndex();
+        currentIndex = new ArrayList<>(Arrays.asList(indexWithShortestDistance));
+        bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
+        currentIndex = bfs.getCurrentIndex();
+    }
+
+    private boolean checkIfTargetCanBeReached(GridPane searchField, Button[][] buttons, Index index, Direction directionToGo) {
+        List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo, buttons);
+        for (Index nextIndex : nextIndices) {
+            if (checkEndPosition(nextIndex)) {
+                System.out.println("Target found at: [" + nextIndex.getRow() + "][" + nextIndex.getColumn() + "]");
+                ResultDisplayer.displayResult(buttons, nextIndex, searchField);
+                return true;
+            }
+        }
         return false;
     }
 
