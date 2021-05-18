@@ -7,7 +7,7 @@ import java.nio.file.Path;
 public class XMLFileProcessor implements FileProcessor {
 
     @Override
-    public Button[][] readFile(Path filePath) {
+    public Button[][] processFile(Path filePath) {
         return new Button[0][];
     }
 

@@ -37,7 +37,7 @@ public class VisualizerField {
     }
 
     public Node createFieldByConfig(Path pathToConfig) {
-        field = fileProcessor.readFile(pathToConfig);
+        field = fileProcessor.processFile(pathToConfig);
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         boolean startFound = false;

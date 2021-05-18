@@ -103,12 +103,16 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         if (visitedButton.getText().equals("Z")) {
             return true;
         } else {
-            searchField.getChildren().remove(visitedButton);
-            visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-            searchField.add(visitedButton, column, row);
-            indexToContinueSearch.add(index);
+            markFieldAsVisited(index, row, column, visitedButton);
             return false;
         }
+    }
+
+    private void markFieldAsVisited(Index index, int row, int column, Button visitedButton) {
+        searchField.getChildren().remove(visitedButton);
+        visitedButton.setStyle("-fx-background-color: #89c1c7 ");
+        searchField.add(visitedButton, column, row);
+        indexToContinueSearch.add(index);
     }
 
     private Direction directionToGoNext(Index indexWithShortestManhattanDistance, Index goalIndex) {

@@ -13,30 +13,38 @@ import java.nio.file.Path;
 
 public class JSONFileProcessor implements FileProcessor {
 
-    public Button[][] readFile(Path filePath) {
+    public Button[][] processFile(Path filePath) {
         Button[][] result = new Button[0][];
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(filePath.toString()))
         {
-            //Read JSON file
-            Object obj = jsonParser.parse(reader);
-
-            JSONArray matrix = (JSONArray) obj;
-            result = new Button[matrix.size()][((JSONArray)matrix.get(0)).size()];
-            for(int i = 0; i<matrix.size(); i++){
-                JSONArray row = ((JSONArray)matrix.get(i));
-                for(int j = 0; j<row.size(); j++){
-                    Button tempButton = new Button(String.valueOf(row.get(j)));
-                    result[i][j] = tempButton;
-                }
-            }
-
+            result = parseFile(jsonParser, reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    private Button[][] parseFile(JSONParser jsonParser, FileReader reader) {
+        Object obj = null;
+        try {
+            obj = jsonParser.parse(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        JSONArray matrix = (JSONArray) obj;
+        Button[][] result = new Button[matrix.size()][((JSONArray) matrix.get(0)).size()];
+        for(int i = 0; i<matrix.size(); i++){
+            JSONArray row = ((JSONArray)matrix.get(i));
+            for(int j = 0; j<row.size(); j++){
+                Button tempButton = new Button(String.valueOf(row.get(j)));
+                result[i][j] = tempButton;
+            }
         }
         return result;
     }
