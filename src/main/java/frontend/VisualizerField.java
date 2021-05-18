@@ -22,9 +22,10 @@ public class VisualizerField {
 
     //needed for heuristic search algorithms
     private Index endField;
-    private FileProcessor fileProcessor = new JSONFileProcessor();
+    private FileProcessor fileProcessor;
 
-    public VisualizerField(Path pathToConfig) {
+    public VisualizerField(Path pathToConfig, FileProcessor fileProcessor) {
+        this.fileProcessor = fileProcessor;
         this.pathToConfig=pathToConfig;
     }
 

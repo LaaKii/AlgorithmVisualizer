@@ -1,5 +1,6 @@
 import backend.searchAlgorithms.BreadthFirstSearch;
 import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
+import fileprocessing.JSONFileProcessor;
 import frontend.VisualizerField;
 import frontend.VisualizerHeader;
 import javafx.application.Application;
@@ -26,7 +27,7 @@ public class MyWindow extends Application {
         VBox parent = new VBox();
 
         BasicSearchAlgorithm basicSearchAlgorithm = new BreadthFirstSearch();
-        VisualizerField visualizerField = new VisualizerField(pathToConfig);
+        VisualizerField visualizerField = new VisualizerField(pathToConfig, new JSONFileProcessor());
         visualizerField.setSearchAlgorithm(basicSearchAlgorithm);
         VisualizerHeader visualizerHeader = new VisualizerHeader(visualizerField, parent);
 
