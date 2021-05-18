@@ -27,15 +27,19 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
             ResultDisplayer.displayResult(buttons, currentField, searchField);
             return true;
         }else if (targetCannotBeReached){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText("Target could not be found");
-            String s = "Either there is no target or the target couldn't be reached";
-            alert.setContentText(s);
-            alert.show();
+            showSearchFinishedDialog();
             return true;
         }
         return false;
+    }
+
+    private void showSearchFinishedDialog() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Target could not be found");
+        String s = "Either there is no target or the target couldn't be reached";
+        alert.setContentText(s);
+        alert.show();
     }
 
     private boolean searchIndexInDepth(Index indexToSearch) {
