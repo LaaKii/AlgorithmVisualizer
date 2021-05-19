@@ -1,7 +1,8 @@
 package backend.searchAlgorithms;
 
-import backend.common.FieldChecker;
+import backend.common.TwoDimensionalFieldChecker;
 import backend.common.IndicesProvider;
+import backend.searchAlgorithms.interfaces.FieldChecker;
 import backend.searchAlgorithms.interfaces.HeuristicSearchAlgorithm;
 import frontend.Button;
 import frontend.ResultDisplayer;
@@ -21,7 +22,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private Button[][] buttons;
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private GridPane searchField = new GridPane();
-    private FieldChecker fieldChecker = new FieldChecker();
+    private FieldChecker fieldChecker = new TwoDimensionalFieldChecker();
     private IndicesProvider indicesProvider = new IndicesProvider();
     private BreadthFirstSearch bfs = new BreadthFirstSearch();
     private Index indexWithShortestDistance;
@@ -52,7 +53,9 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         boolean breadthFirstSearchNeeded = false;
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
-            if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, buttons)) {
+            Field field = new Field();
+            field.setTwoDimensionalField(buttons);
+            if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, field)) {
                 breadthFirstSearchNeeded =false;
                 flushOfAllVisitedNeeded=true;
                 if (checkIfTargetCanBeReached(searchField, buttons, index, directionToGo)){
