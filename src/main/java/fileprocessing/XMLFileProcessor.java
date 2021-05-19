@@ -1,5 +1,6 @@
 package fileprocessing;
 
+import fileprocessing.interfaces.FileProcessor;
 import frontend.Button;
 
 import java.nio.file.Path;

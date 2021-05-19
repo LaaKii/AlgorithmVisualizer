@@ -1,4 +1,4 @@
-package fileprocessing;
+package fileprocessing.interfaces;
 
 import frontend.Button;
 

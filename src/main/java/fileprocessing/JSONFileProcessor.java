@@ -1,5 +1,6 @@
 package fileprocessing;
 
+import fileprocessing.interfaces.FileProcessor;
 import frontend.Button;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
