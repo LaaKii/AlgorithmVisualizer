@@ -1,6 +1,7 @@
 package backend.searchAlgorithms;
 
 import backend.common.FieldChecker;
+import backend.common.IndicesProvider;
 import backend.searchAlgorithms.interfaces.HeuristicSearchAlgorithm;
 import frontend.Button;
 import frontend.ResultDisplayer;
@@ -21,6 +22,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private GridPane searchField = new GridPane();
     private FieldChecker fieldChecker = new FieldChecker();
+    private IndicesProvider indicesProvider = new IndicesProvider();
     private BreadthFirstSearch bfs = new BreadthFirstSearch();
     private Index indexWithShortestDistance;
     boolean flushOfAllVisitedNeeded = false;
@@ -84,7 +86,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     }
 
     private boolean checkIfTargetCanBeReached(GridPane searchField, Button[][] buttons, Index index, Direction directionToGo) {
-        List<Index> nextIndices = fieldChecker.getNextIndices(index, directionToGo, buttons);
+        List<Index> nextIndices = indicesProvider.getNextIndices(index, directionToGo, buttons);
         for (Index nextIndex : nextIndices) {
             if (checkEndPosition(nextIndex)) {
                 System.out.println("Target found at: [" + nextIndex.getRow() + "][" + nextIndex.getColumn() + "]");
