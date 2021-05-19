@@ -1,8 +1,9 @@
 package backend.searchAlgorithms;
 
 import backend.common.TwoDimensionalFieldChecker;
-import backend.common.IndicesProvider;
+import backend.common.TwoDimensionalIndiceProvider;
 import backend.searchAlgorithms.interfaces.FieldChecker;
+import backend.searchAlgorithms.interfaces.FieldinfoProvider;
 import backend.searchAlgorithms.interfaces.HeuristicSearchAlgorithm;
 import frontend.Button;
 import frontend.ResultDisplayer;
@@ -23,7 +24,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private GridPane searchField = new GridPane();
     private FieldChecker fieldChecker = new TwoDimensionalFieldChecker();
-    private IndicesProvider indicesProvider = new IndicesProvider();
+    private FieldinfoProvider fieldinfoProvider = new TwoDimensionalIndiceProvider();
     private BreadthFirstSearch bfs = new BreadthFirstSearch();
     private Index indexWithShortestDistance;
     boolean flushOfAllVisitedNeeded = false;
@@ -89,7 +90,9 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     }
 
     private boolean checkIfTargetCanBeReached(GridPane searchField, Button[][] buttons, Index index, Direction directionToGo) {
-        List<Index> nextIndices = indicesProvider.getNextIndices(index, directionToGo, buttons);
+        Field field = new Field();
+        field.setTwoDimensionalField(buttons);
+        List<Index> nextIndices = fieldinfoProvider.getNextIndices(index, directionToGo, field);
         for (Index nextIndex : nextIndices) {
             if (checkEndPosition(nextIndex)) {
                 System.out.println("Target found at: [" + nextIndex.getRow() + "][" + nextIndex.getColumn() + "]");

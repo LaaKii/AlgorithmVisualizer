@@ -1,18 +1,22 @@
 package backend.common;
 
 import backend.searchAlgorithms.Direction;
+import backend.searchAlgorithms.Field;
 import backend.searchAlgorithms.Index;
+import backend.searchAlgorithms.interfaces.FieldinfoProvider;
 import frontend.Button;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndicesProvider {
+public class TwoDimensionalIndiceProvider implements FieldinfoProvider {
 
-    public List<Index> getNextIndices(Index index, Direction dir, Button[][] field){
+    @Override
+    public List<Index> getNextIndices(Index index, Direction dir, Field field) {
+        Button[][] twoDimensionalField = field.getTwoDimensionalField();
         List<Index> nextIndices = new ArrayList<>();
         if (dir == Direction.SOUTHEAST){
-            if (isSouthIndexReachable(index, field)){
+            if (isSouthIndexReachable(index, twoDimensionalField)){
                 Index southIndex = createSouthIndex(index);
                 Index southEastIndex = createEastIndex(southIndex);
                 nextIndices.add(southIndex);
@@ -24,7 +28,7 @@ public class IndicesProvider {
                 nextIndices.add(eastSouthIndex);
             }
         } else if (dir == Direction.SOUTHWEST) {
-            if (isSouthIndexReachable(index, field)){
+            if (isSouthIndexReachable(index, twoDimensionalField)){
                 Index southIndex = createSouthIndex(index);
                 Index southWestIndex = createWestIndex(southIndex);
                 nextIndices.add(southIndex);
@@ -36,7 +40,7 @@ public class IndicesProvider {
                 nextIndices.add(westSouthIndex);
             }
         } else if (dir == Direction.NORTHEAST){
-            if (isNorthIndexReachable(index, field)){
+            if (isNorthIndexReachable(index, twoDimensionalField)){
                 Index northIndex = createNorthIndex(index);
                 Index northEastIndex = createEastIndex(northIndex);
                 nextIndices.add(northIndex);
@@ -49,7 +53,7 @@ public class IndicesProvider {
             }
 
         } else if (dir == Direction.NORTHWEST){
-            if (isNorthIndexReachable(index, field)){
+            if (isNorthIndexReachable(index, twoDimensionalField)){
                 Index northIndex = createNorthIndex(index);
                 Index northWestIndex = createWestIndex(northIndex);
                 nextIndices.add(northIndex);
@@ -115,4 +119,5 @@ public class IndicesProvider {
     private boolean canDirectionBeReached(Index nextIndex, Button[][] field){
         return !field[nextIndex.getRow()][nextIndex.getColumn()].getText().equals("X") && !field[nextIndex.getRow()][nextIndex.getColumn()].isVisited();
     }
+
 }
