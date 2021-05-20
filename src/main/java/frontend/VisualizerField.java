@@ -15,7 +15,6 @@ import java.nio.file.Path;
 
 public class VisualizerField {
 
-    private Button[][] field;
     //private GridPane grid;
     private SearchField searchField;
     private SearchAlgorithm searchAlgorithm;
@@ -38,7 +37,6 @@ public class VisualizerField {
     }
 
     public Node createFieldByConfig(Path pathToConfig) {
-        field = fileProcessor.processFile(pathToConfig);
         searchField = new SearchField();
         searchField.initField(fileProcessor.processFile(pathToConfig));
         return searchField.getGrid();
@@ -69,20 +67,12 @@ public class VisualizerField {
 
     public void resetField(VBox parent){
         parent.getChildren().remove(searchField.getGrid());
-        field = null;
+        searchField.setButtons(null);
         parent.getChildren().add(refreshField());
     }
 
-    public Button[][] getCurrentButtonField(){
-        return field;
-    }
-
-    public GridPane getGrid(){
-        return searchField.getGrid();
-    }
-
     public void safeField(Path pathToWriteFile) {
-        fileProcessor.writeFile(field,pathToWriteFile);
+        fileProcessor.writeFile(searchField.getButtons(),pathToWriteFile);
     }
 }
 
