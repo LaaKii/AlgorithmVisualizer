@@ -12,7 +12,7 @@ public class AlertManager {
         this.headerText = builder.headerText;
         this.contextText = builder.contextText;
         this.title=builder.title;
-        this.type=type;
+        this.type=builder.type;
     }
 
     public void showAlert(){
