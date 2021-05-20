@@ -14,15 +14,14 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
 
     private List<Index> indexToContinueSearch = new ArrayList<>();
     private List<Index> currentIndex = new ArrayList<>();
-    private GridPane searchField = new GridPane();
-    private Button[][] buttons;
+    private SearchField searchField = new SearchField();
     private boolean firstSearch = true;
     private boolean isSearchForGreedyFirstSearch=false;
 
     @Override
-    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField) {
+    public boolean doSearch(SearchField searchField) {
         this.searchField = searchField;
-        this.buttons = buttons;
+        Index startField = searchField.getStartField();
 
         boolean searchFinished = false;
 
@@ -35,12 +34,12 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
             searchFinished = searchIndexInEveryDirection(index);
             if (searchFinished) {
                 System.out.println("Target found at: [" + index.getRow() + "][" + index.getColumn() + "]");
-                ResultDisplayer.displayResult(buttons, index, searchField);
+                ResultDisplayer.displayResult(searchField, index);
                 return true;
             }
         }
         if (firstSearch) {
-            buttons[startField.getRow()][startField.getColumn()].setVisited(true);
+            searchField.getButtons()[startField.getRow()][startField.getColumn()].setVisited(true);
             firstSearch = false;
         }
 
@@ -75,7 +74,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkLeft(Index index) {
-        if (index.getColumn() - 1 >= 0  && !buttons[index.getRow()][index.getColumn() - 1].isStartField() && !buttons[index.getRow()][index.getColumn() - 1].isVisited()) {
+        if (index.getColumn() - 1 >= 0  && !searchField.getButtons()[index.getRow()][index.getColumn() - 1].isStartField() && !searchField.getButtons()[index.getRow()][index.getColumn() - 1].isVisited()) {
             Index leftIndex = Index.copy(index);
             leftIndex.setPreviousIndex(index);
             leftIndex.setColumn(leftIndex.getColumn() - 1);
@@ -85,7 +84,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkRight(Index index) {
-        if (index.getColumn() + 1 < buttons[index.getRow()].length && !buttons[index.getRow()][index.getColumn() + 1].isStartField() && !buttons[index.getRow()][index.getColumn() + 1].isVisited()) {
+        if (index.getColumn() + 1 < searchField.getButtons()[index.getRow()].length && !searchField.getButtons()[index.getRow()][index.getColumn() + 1].isStartField() && !searchField.getButtons()[index.getRow()][index.getColumn() + 1].isVisited()) {
             Index rightIndex = Index.copy(index);
             rightIndex.setPreviousIndex(index);
             rightIndex.setColumn(rightIndex.getColumn() + 1);
@@ -95,7 +94,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkAbove(Index index) {
-        if (index.getRow() - 1 >= 0 && !buttons[index.getRow() - 1][index.getColumn()].isVisited() && !buttons[index.getRow() - 1][index.getColumn()].isStartField()) {
+        if (index.getRow() - 1 >= 0 && !searchField.getButtons()[index.getRow() - 1][index.getColumn()].isVisited() && !searchField.getButtons()[index.getRow() - 1][index.getColumn()].isStartField()) {
             Index aboveIndex = Index.copy(index);
             aboveIndex.setPreviousIndex(index);
             aboveIndex.setRow(aboveIndex.getRow() - 1);
@@ -105,7 +104,7 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean checkBelow(Index index) {
-        if (index.getRow() + 1 < buttons.length && !buttons[index.getRow() + 1][index.getColumn()].isVisited() && !buttons[index.getRow() + 1][index.getColumn()].isStartField()) {
+        if (index.getRow() + 1 < searchField.getButtons().length && !searchField.getButtons()[index.getRow() + 1][index.getColumn()].isVisited() && !searchField.getButtons()[index.getRow() + 1][index.getColumn()].isStartField()) {
             Index belowIndex = Index.copy(index);
             belowIndex.setPreviousIndex(index);
             belowIndex.setRow(belowIndex.getRow() + 1);
@@ -117,8 +116,8 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     private boolean checkEndPosition(Index index) {
         int row = index.getRow();
         int column = index.getColumn();
-        buttons[index.getRow()][index.getColumn()].setVisited(true);
-        Button visitedButton = buttons[row][column];
+        searchField.getButtons()[index.getRow()][index.getColumn()].setVisited(true);
+        Button visitedButton = searchField.getButtons()[row][column];
         if (visitedButton.getText().equals("Z")) {
             return true;
         } else if (visitedButton.getText().equals("X")) {
@@ -130,9 +129,9 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private void markFieldAsVisited(Index index, int row, int column, Button visitedButton) {
-        searchField.getChildren().remove(visitedButton);
+        searchField.getGrid().getChildren().remove(visitedButton);
         visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-        searchField.add(visitedButton, column, row);
+        searchField.getGrid().add(visitedButton, column, row);
         indexToContinueSearch.add(index);
     }
 
@@ -140,17 +139,13 @@ public class BreadthFirstSearch implements BasicSearchAlgorithm {
         return currentIndex;
     }
 
-    @Override
-    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
-        return doSearch(searchField, buttons, startField);
-    }
 
-    public boolean doSearchForGreedyFirstSearch(GridPane searchField, Button[][] buttons, List<Index> currentIndex, Index indexWithNextLowestDistance) {
+    public boolean doSearchForGreedyFirstSearch(SearchField searchField, List<Index> currentIndex) {
         this.currentIndex = new ArrayList<>(currentIndex);
         this.firstSearch=false;
         isSearchForGreedyFirstSearch = true;
         //currentIndex.get(0) because this is the field with ne lowest manhattan distance to the goal
-        return doSearch(searchField, buttons, indexWithNextLowestDistance);
+        return doSearch(searchField);
     }
 
 }

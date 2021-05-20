@@ -2,6 +2,7 @@ package frontend;
 
 import backend.common.AlertManager;
 import backend.searchAlgorithms.Index;
+import backend.searchAlgorithms.SearchField;
 import backend.searchAlgorithms.interfaces.SearchAlgorithm;
 import fileprocessing.interfaces.FileProcessor;
 import javafx.geometry.Pos;
@@ -15,13 +16,12 @@ import java.nio.file.Path;
 public class VisualizerField {
 
     private Button[][] field;
-    private Index startField;
-    private GridPane grid;
+    //private GridPane grid;
+    private SearchField searchField;
     private SearchAlgorithm searchAlgorithm;
     private Path pathToConfig;
 
     //needed for heuristic search algorithms
-    private Index endField;
     private FileProcessor fileProcessor;
 
     public VisualizerField(Path pathToConfig, FileProcessor fileProcessor) {
@@ -39,38 +39,14 @@ public class VisualizerField {
 
     public Node createFieldByConfig(Path pathToConfig) {
         field = fileProcessor.processFile(pathToConfig);
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        boolean startFound = false;
-        boolean endFound = false;
-
-        for(int i = 0; i<field.length; i++){
-            for(int j = 0; j<field[i].length; j++){
-                Button tempButton = field[i][j];
-                tempButton.setOnAction(actionEvent -> {
-                    tempButton.switchField(tempButton.getText());
-                });
-                if (!startFound && tempButton.getText().equals("S")){
-                    tempButton.setStyle("-fx-background-color: #f1f514; ");
-                    startField = new Index(i,j);
-                    startFound=true;
-                }else if(!endFound && tempButton.getText().equals("Z")){
-                    tempButton.setStyle("-fx-background-color: #f1f514; ");
-                    endField = new Index(i,j);
-                    endFound = true;
-                }else if(tempButton.getText().equals("X")){
-                    tempButton.setStyle("-fx-background-color: #aaadb3; ");
-                }
-                grid.add(tempButton, j,i);
-            }
-        }
-        this.grid=grid;
-        return grid;
+        searchField = new SearchField();
+        searchField.initField(fileProcessor.processFile(pathToConfig));
+        return searchField.getGrid();
     }
 
     public boolean nextSearchStep(){
         if (searchAlgorithm !=null){
-          return searchAlgorithm.doSearch(getGrid(), getCurrentButtonField(), startField, endField);
+          return searchAlgorithm.doSearch(searchField);
         } else{
             showAlgorithmError();
             throw new NullPointerException("Search Algorithm isn't set");
@@ -92,7 +68,7 @@ public class VisualizerField {
     }
 
     public void resetField(VBox parent){
-        parent.getChildren().remove(grid);
+        parent.getChildren().remove(searchField.getGrid());
         field = null;
         parent.getChildren().add(refreshField());
     }
@@ -102,7 +78,7 @@ public class VisualizerField {
     }
 
     public GridPane getGrid(){
-        return grid;
+        return searchField.getGrid();
     }
 
     public void safeField(Path pathToWriteFile) {

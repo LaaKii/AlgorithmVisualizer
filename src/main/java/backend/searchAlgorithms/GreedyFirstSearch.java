@@ -20,9 +20,8 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
 
     private List<Index> currentIndex = new ArrayList<>();
     private boolean firstRun = true;
-    private Button[][] buttons;
     private List<Index> indexToContinueSearch = new ArrayList<>();
-    private GridPane searchField = new GridPane();
+    private SearchField searchField = new SearchField();
     private FieldChecker fieldChecker = new TwoDimensionalFieldChecker();
     private FieldinfoProvider fieldinfoProvider = new TwoDimensionalIndiceProvider();
     private BreadthFirstSearch bfs = new BreadthFirstSearch();
@@ -30,16 +29,15 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     boolean flushOfAllVisitedNeeded = false;
 
     @Override
-    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
-        this.buttons = buttons;
+    public boolean doSearch(SearchField searchField) {
         this.searchField = searchField;
         if (firstRun) {
-            currentIndex.add(startField);
+            currentIndex.add(searchField.getStartField());
             firstRun = false;
         }
 
         for(Index curr : currentIndex){
-            curr.setManhattanDistance(heuristic(curr, endField));
+            curr.setManhattanDistance(heuristic(curr, searchField.getEndField()));
         }
 
         List<Index> modifiableList = new ArrayList<>(currentIndex);
@@ -47,19 +45,19 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         currentIndex = modifiableList;
         indexWithShortestDistance = currentIndex.get(0);
 
-        return canAnyIndexReachTheGoal(searchField, buttons, endField);
+        return canAnyIndexReachTheGoal(searchField, searchField.getEndField());
     }
 
-    private boolean canAnyIndexReachTheGoal(GridPane searchField, Button[][] buttons, Index endField) {
+    private boolean canAnyIndexReachTheGoal(SearchField searchField, Index endField) {
         boolean breadthFirstSearchNeeded = false;
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
             Field field = new Field();
-            field.setTwoDimensionalField(buttons);
+            field.setTwoDimensionalField(searchField.getButtons());
             if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, field)) {
                 breadthFirstSearchNeeded =false;
                 flushOfAllVisitedNeeded=true;
-                if (checkIfTargetCanBeReached(searchField, buttons, index, directionToGo)){
+                if (checkIfTargetCanBeReached(searchField, index, directionToGo)){
                     return true;
                 }
                 break;
@@ -69,11 +67,12 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         }
 
         if(breadthFirstSearchNeeded) {
-            bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
+            searchField.setStartField(indexWithShortestDistance);
+            bfs.doSearchForGreedyFirstSearch(searchField, currentIndex);
             currentIndex = bfs.getCurrentIndex();
             //Current index is in a "tunnel"
             while (currentIndex.size()==0){
-                restartSearchWithRemainingIndex(searchField, buttons);
+                restartSearchWithRemainingIndex(searchField);
             }
         } else {
             currentIndex = List.copyOf(indexToContinueSearch);
@@ -82,21 +81,22 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         return false;
     }
 
-    private void restartSearchWithRemainingIndex(GridPane searchField, Button[][] buttons) {
+    private void restartSearchWithRemainingIndex(SearchField searchField) {
         indexWithShortestDistance = indexWithShortestDistance.getPreviousIndex();
         currentIndex = new ArrayList<>(Arrays.asList(indexWithShortestDistance));
-        bfs.doSearchForGreedyFirstSearch(searchField, buttons, currentIndex, indexWithShortestDistance);
+        searchField.setStartField(indexWithShortestDistance);
+        bfs.doSearchForGreedyFirstSearch(searchField, currentIndex);
         currentIndex = bfs.getCurrentIndex();
     }
 
-    private boolean checkIfTargetCanBeReached(GridPane searchField, Button[][] buttons, Index index, Direction directionToGo) {
+    private boolean checkIfTargetCanBeReached(SearchField searchField, Index index, Direction directionToGo) {
         Field field = new Field();
-        field.setTwoDimensionalField(buttons);
+        field.setTwoDimensionalField(searchField.getButtons());
         List<Index> nextIndices = fieldinfoProvider.getNextIndices(index, directionToGo, field);
         for (Index nextIndex : nextIndices) {
             if (checkEndPosition(nextIndex)) {
                 System.out.println("Target found at: [" + nextIndex.getRow() + "][" + nextIndex.getColumn() + "]");
-                ResultDisplayer.displayResult(buttons, nextIndex, searchField);
+                ResultDisplayer.displayResult(searchField, nextIndex);
                 return true;
             }
         }
@@ -106,8 +106,8 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     private boolean checkEndPosition(Index index) {
         int row = index.getRow();
         int column = index.getColumn();
-        buttons[row][column].setVisited(true);
-        Button visitedButton = buttons[row][column];
+        searchField.getButtons()[row][column].setVisited(true);
+        Button visitedButton = searchField.getButtons()[row][column];
         if (visitedButton.getText().equals("Z")) {
             return true;
         } else {
@@ -117,9 +117,9 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     }
 
     private void markFieldAsVisited(Index index, int row, int column, Button visitedButton) {
-        searchField.getChildren().remove(visitedButton);
+        searchField.getGrid().getChildren().remove(visitedButton);
         visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-        searchField.add(visitedButton, column, row);
+        searchField.getGrid().add(visitedButton, column, row);
         indexToContinueSearch.add(index);
     }
 

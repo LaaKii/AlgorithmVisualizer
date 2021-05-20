@@ -7,24 +7,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 
 public class DepthFirstSearch implements BasicSearchAlgorithm {
-    private GridPane searchField;
-    private Button[][] buttons;
+    private SearchField searchField;
     private Index currentField = null;
     private boolean firstRun = true;
     private boolean targetCannotBeReached=false;
 
     @Override
-    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField) {
+    public boolean doSearch(SearchField searchField) {
         this.searchField = searchField;
-        this.buttons = buttons;
         if (firstRun) {
-            currentField = startField;
+            currentField = searchField.getStartField();
             firstRun = false;
         }
 
         if (searchIndexInDepth(currentField)) {
             System.out.println("Target found at: [" + currentField.getRow() + "][" + currentField.getColumn() + "]");
-            ResultDisplayer.displayResult(buttons, currentField, searchField);
+            ResultDisplayer.displayResult(searchField, currentField);
             return true;
         }else if (targetCannotBeReached){
             showSearchFinishedDialog();
@@ -85,11 +83,12 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
 
     private boolean isFieldOnTopVisitable(Index indexToSearch) {
         return indexToSearch.getRow()-1 > 0
-                && !buttons[indexToSearch.getRow()-1][indexToSearch.getColumn()].isVisited()
-                && !buttons[indexToSearch.getRow()-1][indexToSearch.getColumn()].getText().equals("X");
+                && !searchField.getButtons()[indexToSearch.getRow()-1][indexToSearch.getColumn()].isVisited()
+                && !searchField.getButtons()[indexToSearch.getRow()-1][indexToSearch.getColumn()].getText().equals("X");
     }
 
     private boolean isFieldLeftVisitable(Index indexToSearch){
+        Button[][] buttons = searchField.getButtons();
         return indexToSearch.getColumn()>0
                 && !(buttons[indexToSearch.getRow()][indexToSearch.getColumn() - 1].getText().equals("X"))
                 && !(buttons[indexToSearch.getRow()][indexToSearch.getColumn() - 1].getText().equals("X"))
@@ -98,6 +97,7 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean isFieldRightVisitable(Index indexToSearch){
+        Button [][] buttons = searchField.getButtons();
         if (indexToSearch.getColumn()+1 >= buttons[indexToSearch.getRow()].length){
             return false;
         }
@@ -108,13 +108,14 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private boolean isFieldBelowVisitable(Index indexToSearch){
+        Button[][] buttons = searchField.getButtons();
         return indexToSearch.getRow()+1<buttons.length
                 && !(buttons[indexToSearch.getRow() + 1][indexToSearch.getColumn()].getText().equals("X"))
                 && !buttons[indexToSearch.getRow() + 1][indexToSearch.getColumn()].isVisited();
     }
 
     private boolean lookupNextField(Index nextIndex) {
-        if (nextIndex.getRow() < buttons.length && !buttons[nextIndex.getRow()][nextIndex.getColumn()].isVisited()) {
+        if (nextIndex.getRow() < searchField.getButtons().length && !searchField.getButtons()[nextIndex.getRow()][nextIndex.getColumn()].isVisited()) {
             return checkEndPosition(nextIndex);
         }
         return false;
@@ -123,8 +124,8 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
     private boolean checkEndPosition(Index index) {
         int row = index.getRow();
         int column = index.getColumn();
-        buttons[row][column].setVisited(true);
-        Button visitedButton = buttons[row][column];
+        searchField.getButtons()[row][column].setVisited(true);
+        Button visitedButton = searchField.getButtons()[row][column];
         if (visitedButton.getText().equals("Z")) {
             return true;
         } else if (visitedButton.getText().equals("X")) {
@@ -140,14 +141,10 @@ public class DepthFirstSearch implements BasicSearchAlgorithm {
     }
 
     private void markFieldAsVisited(Index index, int row, int column, Button visitedButton) {
-        searchField.getChildren().remove(visitedButton);
+        searchField.getGrid().getChildren().remove(visitedButton);
         visitedButton.setStyle("-fx-background-color: #89c1c7 ");
-        searchField.add(visitedButton, column, row);
+        searchField.getGrid().add(visitedButton, column, row);
         currentField = index;
     }
 
-    @Override
-    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
-        return doSearch(searchField, buttons, startField);
-    }
 }

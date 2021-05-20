@@ -14,20 +14,21 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
     BreadthFirstSearch endBreadthFirstSearch = new BreadthFirstSearch();
 
     @Override
-    public boolean doSearch(GridPane searchField, Button[][] buttons, Index startField, Index endField) {
-        boolean startSearchTerminated = startBreadthFirstSearch.doSearch(searchField, buttons, startField);
+    public boolean doSearch(SearchField searchField) {
+        boolean startSearchTerminated = startBreadthFirstSearch.doSearch(searchField);
         if (startSearchTerminated){
             return true;
         }
-        boolean endSearchTerminated = endBreadthFirstSearch.doSearch(searchField, buttons, endField);
+        searchField.setStartField(searchField.getEndField());
+        boolean endSearchTerminated = endBreadthFirstSearch.doSearch(searchField);
         if(endSearchTerminated){
             return true;
         }
 
-        return checkIfSearchIsFinished(searchField, buttons, getIntersectedIndicesBetweenStartAndEndSearch());
+        return checkIfSearchIsFinished(searchField, getIntersectedIndicesBetweenStartAndEndSearch());
     }
 
-    private boolean checkIfSearchIsFinished(GridPane searchField, Button[][] buttons, List<Index> intersectionBetweenStartAndEndSearch) {
+    private boolean checkIfSearchIsFinished(SearchField searchField, List<Index> intersectionBetweenStartAndEndSearch) {
         //Target found.
         if (intersectionBetweenStartAndEndSearch.size() > 0) {
             Index startSearchIndex = intersectionBetweenStartAndEndSearch.get(0);
@@ -42,8 +43,8 @@ public class BidirectionalBreadthFirstSearch implements HeuristicSearchAlgorithm
                     break;
                 }
             }
-            ResultDisplayer.displayResult(buttons, startSearchIndex, searchField);
-            ResultDisplayer.displayResult(buttons, endSearchIndex, searchField);
+            ResultDisplayer.displayResult(searchField, startSearchIndex);
+            ResultDisplayer.displayResult(searchField, endSearchIndex);
             return true;
         } else {
             return false;
