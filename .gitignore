@@ -8,6 +8,8 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+dependency-reduced-pom.xml
+
 # Generated files
 .idea/**/contentModel.xml
 
