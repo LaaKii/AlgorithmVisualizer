@@ -116,8 +116,4 @@ public class TwoDimensionalIndiceProvider implements FieldinfoProvider {
         return !field[index.getRow()+1][index.getColumn()].getText().equals("X");
     }
 
-    private boolean canDirectionBeReached(Index nextIndex, Button[][] field){
-        return !field[nextIndex.getRow()][nextIndex.getColumn()].getText().equals("X") && !field[nextIndex.getRow()][nextIndex.getColumn()].isVisited();
-    }
-
 }
