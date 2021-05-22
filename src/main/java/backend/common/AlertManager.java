@@ -15,6 +15,7 @@ public class AlertManager {
         this.type=builder.type;
     }
 
+
     public void showAlert(){
         Alert alert = new Alert(type);
         alert.setTitle(title);

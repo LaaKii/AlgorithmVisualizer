@@ -4,7 +4,6 @@ import fileprocessing.JSONFileProcessor;
 import frontend.VisualizerField;
 import frontend.VisualizerHeader;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
