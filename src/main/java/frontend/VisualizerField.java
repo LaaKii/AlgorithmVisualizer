@@ -33,10 +33,6 @@ public class VisualizerField {
         return createFieldByConfig(pathToConfig);
     }
 
-    public void setPathToConfig(Path pathToConfig){
-        this.pathToConfig=pathToConfig;
-    }
-
     public Node createFieldByConfig(Path pathToConfig) {
         searchField = new SearchField();
         searchField.initField(fileProcessor.processFile(pathToConfig, new JSONFileParser()));
