@@ -15,12 +15,18 @@ public class NumberTextFieldTest {
     private NumberTextField textField = new NumberTextField("123");
 
     @Test
-    public void testReplaceText(){
+    public void testReplaceTextWithLetter(){
         textField.replaceSelection("a");
         Assert.assertEquals("123", textField.getText());
         Assert.assertEquals("-fx-control-inner-background: #a81830", textField.getStyle());
     }
 
+    @Test
+    public void testReplaceText(){
+        textField.replaceSelection("1");
+        Assert.assertEquals("1123", textField.getText());
+        Assert.assertEquals("", textField.getStyle());
+    }
     //Need to do this, because toolkit of javafx has to be initialized to use Button
     @BeforeClass
     public static void initToolkit() throws InterruptedException
