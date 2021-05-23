@@ -1,7 +1,6 @@
 package frontend;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.control.TextField;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
