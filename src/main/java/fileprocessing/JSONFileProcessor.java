@@ -1,5 +1,6 @@
 package fileprocessing;
 
+import fileprocessing.interfaces.FileParser;
 import fileprocessing.interfaces.FileProcessor;
 import frontend.Button;
 import org.json.simple.JSONArray;
@@ -14,43 +15,16 @@ import java.nio.file.Path;
 
 public class JSONFileProcessor implements FileProcessor {
 
-    public Button[][] processFile(Path filePath) {
+    public Button[][] processFile(Path filePath, FileParser parser) {
         Button[][] result = new Button[0][];
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(filePath.toString()))
         {
-            result = parseFile(jsonParser, reader);
+            result = parser.parseFile(jsonParser, reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return result;
-    }
-
-    private Button[][] parseFile(JSONParser jsonParser, FileReader reader) {
-        Object obj = null;
-        try {
-            obj = jsonParser.parse(reader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Button[][] result = getButtonsField((JSONArray) obj);
-        return result;
-    }
-
-    private Button[][] getButtonsField(JSONArray obj) {
-        JSONArray matrix = obj;
-        Button[][] result = new Button[matrix.size()][((JSONArray) matrix.get(0)).size()];
-        for(int i = 0; i<matrix.size(); i++){
-            JSONArray row = ((JSONArray)matrix.get(i));
-            for(int j = 0; j<row.size(); j++){
-                Button tempButton = new Button(String.valueOf(row.get(j)));
-                result[i][j] = tempButton;
-            }
         }
         return result;
     }

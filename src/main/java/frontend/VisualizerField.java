@@ -4,6 +4,7 @@ import backend.common.AlertManager;
 import backend.searchAlgorithms.Index;
 import backend.searchAlgorithms.SearchField;
 import backend.searchAlgorithms.interfaces.SearchAlgorithm;
+import fileprocessing.JSONFileParser;
 import fileprocessing.interfaces.FileProcessor;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -38,7 +39,7 @@ public class VisualizerField {
 
     public Node createFieldByConfig(Path pathToConfig) {
         searchField = new SearchField();
-        searchField.initField(fileProcessor.processFile(pathToConfig));
+        searchField.initField(fileProcessor.processFile(pathToConfig, new JSONFileParser()));
         return searchField.getGrid();
     }
 
