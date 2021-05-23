@@ -3,8 +3,8 @@ package backend.searchAlgorithms;
 import frontend.Button;
 
 public class Field {
-    Button[][] twoDimensionalField;
-    Button[][][] threeDimensionalField;
+    private Button[][] twoDimensionalField;
+    private Button[][][] threeDimensionalField;
 
     public Button[][] getTwoDimensionalField() {
         return twoDimensionalField;

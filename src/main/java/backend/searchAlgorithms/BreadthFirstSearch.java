@@ -5,7 +5,6 @@ import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
 import frontend.Button;
 import frontend.ResultDisplayer;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
