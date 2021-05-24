@@ -24,7 +24,7 @@ public class VisualizerHeader {
 
     public VisualizerHeader(VisualizerField visualizerField, VBox parent){
         this.parent = parent;
-        this.visualizerField=visualizerField;
+        this.visualizerField = visualizerField;
     }
 
     public Node getHeader() {

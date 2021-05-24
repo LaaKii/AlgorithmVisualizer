@@ -14,7 +14,7 @@ import java.nio.file.Path;
 
 public class VisualizerField {
 
-    private SearchField searchField;
+    private backend.searchAlgorithms.SearchField searchField;
     private SearchAlgorithm searchAlgorithm;
     private Path pathToConfig;
 
@@ -31,7 +31,7 @@ public class VisualizerField {
     }
 
     public Node createFieldByConfig(Path pathToConfig) {
-        searchField = new SearchField();
+        searchField = new backend.searchAlgorithms.SearchField();
         FileToButtonArrayMap fileToButtonArrayMap = new FileToButtonArrayMap(fileProcessor, new JSONFileParser());
         searchField.initField(fileToButtonArrayMap.getButtonArrayByFile(pathToConfig));
         return searchField.getGrid();
@@ -64,6 +64,10 @@ public class VisualizerField {
         parent.getChildren().remove(searchField.getGrid());
         searchField.setButtons(null);
         parent.getChildren().add(refreshField());
+    }
+
+    public backend.searchAlgorithms.SearchField getSearchField(){
+        return searchField;
     }
 
     public void safeField(Path pathToWriteFile) {
