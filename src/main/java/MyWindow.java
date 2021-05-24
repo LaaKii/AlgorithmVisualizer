@@ -1,6 +1,6 @@
 import backend.searchAlgorithms.BreadthFirstSearch;
 import backend.searchAlgorithms.interfaces.BasicSearchAlgorithm;
-import fileprocessing.JSONFileProcessor;
+import adapters.fileprocessing.JSONFileProcessor;
 import frontend.VisualizerField;
 import frontend.VisualizerHeader;
 import javafx.application.Application;

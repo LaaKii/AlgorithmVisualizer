@@ -1,7 +1,7 @@
-package fileprocessing;
+package adapters.fileprocessing;
 
-import fileprocessing.interfaces.FileParser;
-import fileprocessing.interfaces.FileProcessor;
+import adapters.fileprocessing.interfaces.FileParser;
+import adapters.fileprocessing.interfaces.FileProcessor;
 import frontend.Button;
 
 import java.nio.file.Path;

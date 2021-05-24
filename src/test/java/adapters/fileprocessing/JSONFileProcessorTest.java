@@ -1,4 +1,4 @@
-package fileprocessing;
+package adapters.fileprocessing;
 
 import frontend.Button;
 import javafx.embed.swing.JFXPanel;

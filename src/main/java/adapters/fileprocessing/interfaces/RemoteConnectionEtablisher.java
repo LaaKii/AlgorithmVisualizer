@@ -1,6 +1,4 @@
-package fileprocessing.interfaces;
-
-import java.nio.file.Path;
+package adapters.fileprocessing.interfaces;
 
 public interface RemoteConnectionEtablisher {
     void readFilesFromServer();

@@ -1,4 +1,4 @@
-package fileprocessing.interfaces;
+package adapters.fileprocessing.interfaces;
 
 import frontend.Button;
 import org.json.simple.parser.JSONParser;

@@ -1,11 +1,10 @@
-package fileprocessing;
+package adapters.fileprocessing;
 
-import fileprocessing.interfaces.FileParser;
-import fileprocessing.interfaces.FileProcessor;
+import adapters.fileprocessing.interfaces.FileParser;
+import adapters.fileprocessing.interfaces.FileProcessor;
 import frontend.Button;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

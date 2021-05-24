@@ -1,10 +1,11 @@
 package frontend;
 
+import adapters.fileprocessing.FileToButtonArrayMap;
 import backend.common.AlertManager;
 import backend.searchAlgorithms.SearchField;
 import backend.searchAlgorithms.interfaces.SearchAlgorithm;
-import fileprocessing.JSONFileParser;
-import fileprocessing.interfaces.FileProcessor;
+import adapters.fileprocessing.JSONFileParser;
+import adapters.fileprocessing.interfaces.FileProcessor;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
@@ -31,7 +32,8 @@ public class VisualizerField {
 
     public Node createFieldByConfig(Path pathToConfig) {
         searchField = new SearchField();
-        searchField.initField(fileProcessor.processFile(pathToConfig, new JSONFileParser()));
+        FileToButtonArrayMap fileToButtonArrayMap = new FileToButtonArrayMap(fileProcessor, new JSONFileParser());
+        searchField.initField(fileToButtonArrayMap.getButtonArrayByFile(pathToConfig));
         return searchField.getGrid();
     }
 

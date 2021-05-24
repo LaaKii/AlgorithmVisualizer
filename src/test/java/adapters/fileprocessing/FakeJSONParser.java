@@ -1,6 +1,6 @@
-package fileprocessing;
+package adapters.fileprocessing;
 
-import fileprocessing.interfaces.FileParser;
+import adapters.fileprocessing.interfaces.FileParser;
 import frontend.Button;
 import org.json.simple.parser.JSONParser;
 
