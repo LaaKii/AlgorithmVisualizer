@@ -1,5 +1,6 @@
 package api;
 
+import api.internal.EmptyField;
 import api.internal.StartField;
 import api.internal.Wall;
 import backend.searchAlgorithms.Index;
@@ -11,6 +12,9 @@ public class FieldHandlerTest {
     public void test(){
         FieldHandler fieldHandler = new FieldHandler(null);
         FieldHandler.FieldChanger fieldChanger = fieldHandler.new FieldChanger();
-        fieldChanger.changeFieldTo(new Index(1,2), new Wall()).changeFieldTo(new Index(2,1), new StartField()).commitChanges();
+
+
+
+        fieldChanger.changeFieldTo(new Index(1,2), new Wall()).changeFieldTo(new Index(2,1), new EmptyField()).commitChanges();
     }
 }
