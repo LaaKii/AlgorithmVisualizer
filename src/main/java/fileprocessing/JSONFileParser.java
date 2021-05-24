@@ -21,8 +21,10 @@ public class JSONFileParser implements FileParser {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        Button[][] result = getButtonsField((JSONArray) obj);
+        Button[][] result = new Button[1][1];
+        if (!isObjectNull(obj)){
+            result = getButtonsField((JSONArray) obj);
+        }
         return result;
     }
 
@@ -37,5 +39,13 @@ public class JSONFileParser implements FileParser {
             }
         }
         return result;
+    }
+
+    private boolean isObjectNull(Object obj) {
+        if (obj == null){
+            System.err.println("Object is null. Check File passed to JSONFileParser");
+            return true;
+        }
+        return false;
     }
 }
