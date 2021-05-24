@@ -3,7 +3,6 @@ package frontend;
 import backend.searchAlgorithms.Index;
 import backend.searchAlgorithms.SearchField;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 
 public class ResultDisplayer {
 
@@ -16,5 +15,7 @@ public class ResultDisplayer {
             index = index.getPreviousIndex();
         }
     }
+
+    private ResultDisplayer(){}
 
 }
