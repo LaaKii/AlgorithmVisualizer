@@ -1,22 +1,18 @@
 package frontend;
 
 import backend.common.AlertManager;
-import backend.searchAlgorithms.Index;
 import backend.searchAlgorithms.SearchField;
 import backend.searchAlgorithms.interfaces.SearchAlgorithm;
 import fileprocessing.JSONFileParser;
 import fileprocessing.interfaces.FileProcessor;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.nio.file.Path;
 
 public class VisualizerField {
 
-    //private GridPane grid;
     private SearchField searchField;
     private SearchAlgorithm searchAlgorithm;
     private Path pathToConfig;
