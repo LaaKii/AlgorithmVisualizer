@@ -28,7 +28,7 @@ public class TwoDimensionalIndiceProviderTest {
     public void init(){
         fieldinfoProvider = new TwoDimensionalIndiceProvider();
         indexToCheck = new Index(1,1);
-        field = new Field();
+
         Button[][] buttons = new Button[3][3];
         Button button00 = new Button("0");
         button00.setVisited(false);
@@ -41,7 +41,7 @@ public class TwoDimensionalIndiceProviderTest {
         buttons[2][0]=button00;
         buttons[2][1]=button00;
         buttons[2][2]=button00;
-        field.setTwoDimensionalField(buttons);
+        field = new Field(buttons);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TwoDimensionalIndiceProviderTest {
         Button wallButton = new Button("X");
         wallButton.setVisited(false);
         buttons[0][1] = wallButton;
-        field.setTwoDimensionalField(buttons);
+        field = new Field(buttons);
         List<Index> nextIndices = fieldinfoProvider.getNextIndices(indexToCheck, Direction.NORTHEAST, field);
         Index expectedIndex = new Index(1,2);
         Assert.assertEquals(true, checkIfIndexIsExpected(expectedIndex, nextIndices.get(0)));
@@ -108,7 +108,7 @@ public class TwoDimensionalIndiceProviderTest {
         init();
 
         buttons[2][1] = wallButton;
-        field.setTwoDimensionalField(buttons);
+        field = new Field(buttons);
         nextIndices = fieldinfoProvider.getNextIndices(indexToCheck, Direction.SOUTHWEST, field);
         expectedIndex = new Index(1,0);
         Assert.assertEquals(true, checkIfIndexIsExpected(expectedIndex, nextIndices.get(0)));

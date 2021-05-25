@@ -2,23 +2,26 @@ package backend.searchAlgorithms;
 
 import frontend.Button;
 
-public class Field {
-    private Button[][] twoDimensionalField;
-    private Button[][][] threeDimensionalField;
+public final class Field {
+    private final Button[][] twoDimensionalField;
+    private final Button[][][] threeDimensionalField;
+
+    public Field(Button[][] twoDimensionalField){
+        this.twoDimensionalField = twoDimensionalField;
+        this.threeDimensionalField = null;
+    }
+
+    public Field(Button[][][] threeDimensionalField){
+        this.threeDimensionalField=threeDimensionalField;
+        this.twoDimensionalField=null;
+    }
 
     public Button[][] getTwoDimensionalField() {
         return twoDimensionalField;
-    }
-
-    public void setTwoDimensionalField(Button[][] twoDimensionalField) {
-        this.twoDimensionalField = twoDimensionalField;
     }
 
     public Button[][][] getThreeDimensionalField() {
         return threeDimensionalField;
     }
 
-    public void setThreeDimensionalField(Button[][][] threeDimensionalField) {
-        this.threeDimensionalField = threeDimensionalField;
-    }
 }

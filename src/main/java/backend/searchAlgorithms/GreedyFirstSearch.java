@@ -52,8 +52,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
         boolean breadthFirstSearchNeeded = false;
         for (Index index : currentIndex) {
             Direction directionToGo = directionToGoNext(index, endField);
-            Field field = new Field();
-            field.setTwoDimensionalField(searchField.getButtons());
+            Field field = new Field(searchField.getButtons());
             if (fieldChecker.canNextFieldByDirectionBeReached(index, directionToGo, field)) {
                 breadthFirstSearchNeeded =false;
                 flushOfAllVisitedNeeded=true;
@@ -90,8 +89,7 @@ public class GreedyFirstSearch implements HeuristicSearchAlgorithm {
     }
 
     private boolean checkIfTargetCanBeReached(SearchField searchField, Index index, Direction directionToGo) {
-        Field field = new Field();
-        field.setTwoDimensionalField(searchField.getButtons());
+        Field field = new Field(searchField.getButtons());
         List<Index> nextIndices = fieldinfoProvider.getNextIndices(index, directionToGo, field);
         for (Index nextIndex : nextIndices) {
             if (checkEndPosition(nextIndex)) {

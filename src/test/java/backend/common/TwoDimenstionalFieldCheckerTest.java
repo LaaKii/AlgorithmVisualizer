@@ -20,8 +20,8 @@ public class TwoDimenstionalFieldCheckerTest {
     public void testCanNextFieldBeReached(){
         FieldChecker fieldChecker = new TwoDimensionalFieldChecker();
         Index indexToCheck = new Index(1,1);
-        Field field = new Field();
         Button[][] buttons = new Button[3][3];
+
         Button button00 = new Button("0");
         button00.setVisited(false);
         buttons[0][0]=button00;
@@ -33,8 +33,7 @@ public class TwoDimenstionalFieldCheckerTest {
         buttons[2][0]=button00;
         buttons[2][1]=button00;
         buttons[2][2]=button00;
-        field.setTwoDimensionalField(buttons);
-
+        Field field = new Field(buttons);
         Assert.assertEquals(true, fieldChecker.canNextFieldByDirectionBeReached(indexToCheck, Direction.NORTH, field));
         Assert.assertEquals(true, fieldChecker.canNextFieldByDirectionBeReached(indexToCheck, Direction.SOUTH, field));
         Assert.assertEquals(true, fieldChecker.canNextFieldByDirectionBeReached(indexToCheck, Direction.EAST, field));
