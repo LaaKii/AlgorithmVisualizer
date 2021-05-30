@@ -1,4 +1,5 @@
 # AlgorithmVisualizer
+-Dokumentation PDF liegt im root (Master)
 
 <h2>How to make it run</h2>
 -	Java 14 oder 16 installieren <br>
